@@ -1,0 +1,48 @@
+BeanPropertyRowMapper:
+--------------------------
+In Spring 2.5, comes with a handy RowMapper implementation called ‘BeanPropertyRowMapper’,
+ which can maps a row’s column value to a property by matching their names. Just make sure both the property and column 
+ has the same name, e.g property ‘empid’ will match to column name ‘EMPID’ or with underscores ‘EMP_ID’.
+
+public Employee getEmployee(Integer empid) {
+   String SQL = "SELECT * FROM Employee WHERE empid = ?";
+   Employee employee = (Employee) jdbcTemplateObject.queryForObject(SQL, new Object[]{empid}, new BeanPropertyRowMapper(Employee.class));
+    return employee;
+}
+
+
+
+StoredProcCaller.java
+--------------------------
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.object.StoredProcedure;
+
+public class StoredProcCaller extends StoredProcedure {
+	
+	public StoredProcCaller(JdbcTemplate jdbcTemplate, String name) {
+
+		super(jdbcTemplate, name);
+		setFunction(false);
+
+		}
+
+		}
+		DAO Class:
+		-------------------
+	public Map method(Employee emp)
+	{
+	    
+		    StoredProcCaller storedProcedureCaller = new StoredProcCaller(jdbcTemplate, "getEmpDetails");	
+			SqlParameter sId = new SqlParameter("id", Types.VARCHAR);
+			SqlOutParameter ValidationMsg = new SqlOutParameter("ValidationMsg", Types.CHAR);
+			SqlParameter[] paramArray = {sId,ValidationMsg};
+			storedProcedureCaller.setParameters(paramArray);
+			storedProcedureCaller.compile();
+			Map storedProcResult = storedProcedureCaller.execute(emp.getId() );
+			return storedProcResult;
+		
+		
+	}
+		
+		
+		
