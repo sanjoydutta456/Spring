@@ -1,0 +1,67 @@
+
+Apache Camel is a rule-based routing engine that provides a Java object-based implementation of the Enterprise Integration Patterns using 
+an API (or declarative Java Domain Specific Language) to configure from which source to accept message and determine how to process and 
+send those messages to the other destinations.
+
+Apache Camel uses URIs to work directly with any kind of Transport or messaging model such as HTTP, ActiveMQ, JMS etc., but on the outset, the API remains same 
+regardless of the transport protocol the systems are using.
+
+Camel has two main ways of defining routing rules: the Java-based domain specific language (DSL) and the Spring XML configuration format. I will show you an example
+for each case.
+
+CamelContext
+CamelContext is at heart of all camel application and it represents Camel run time system.
+Create camelcontext.
+Add endpoints or components.
+Add Routes to connect the endpoints.
+Invoke camelcontext.start() – This starts all the camel-internal threads which are responsible for receiving, sending and processing messages in the endpoints.
+Lastly invoking camelcontext.stop() when all the messages are exchanged and processed. This will gracefully stop all the camel-internal threads and endpoints.
+
+RouterBuilder can be created by extending org.apache.camel.builder.RouterBuilder class and overriding configure() method. 
+
+With Agile development methodology –
+•In the Agile methodology, each project is broken up into several ‘Iterations’.
+•All Iterations should be of the same time duration (between 2 to 8 weeks).
+•At the end of each iteration, a working product should be delivered.
+•In simple terms, in the Agile approach the project will be broken up into 10 releases (assuming each iteration is set to last 4 weeks).
+•Rather than spending 1.5 months on requirements gathering, in Agile software development, the team will decide the basic core features that are required in the 
+product and decide which of these features can be developed in the first iteration.
+•Any remaining features that cannot be delivered in the first iteration will be taken up in the next iteration or subsequent iterations, based on priority.
+•At the end of the first iterations, the team will deliver a working software with the features that were finalized for that iteration.
+•There will be 10 iterations and at the end of each iteration the customer is delivered a working software that is incrementally enhanced and updated with the features that were shortlisted for that iteration.
+
+
+
+Advantages of Agile Methodology
+•In Agile methodology the delivery of software is unremitting.
+•The customers are satisfied because after every Sprint working feature of the software is delivered to them.
+•Customers can have a look of the working feature which fulfilled their expectations.
+•If the customers has any feedback or any change in the feature then it can be accommodated in the current release of the product.
+•In Agile methodology the daily interactions are required between the business people and the developers.
+•In this methodology attention is paid to the good design of the product.
+•Changes in the requirements are accepted even in the later stages of the development.
+
+
+
+Spring Batch is an amazing tool for efficiently processing large amounts of data. 
+A Spring Batch project uses a Job, JobLauncher, Step, and JobRepository. A Job is a container for Steps.
+Each Step may contain a Tasklet, which is nothing more than an object with custom logic for a Job. Each Job 
+is started by a JobLauncher and resides within a JobRepository. Each JobRepository requires a data source. 
+If a JobLauncher is not specified, a default object is instantiated.
+
+To summarize, if sorting of objects needs to be based on natural order then use Comparable whereas if you sorting needs to be done on attributes 
+of different objects, then use Comparator in Java.
+
+@RequestMapping is used in a number of places. The first usage is on the type (class) level, which indicates that all handling methods on this controller are
+relative to the /appointments path. The get() method has a further @RequestMapping refinement: it only accepts GET requests, meaning that an HTTP GET 
+for /appointments invokes this method. The post() has a similar refinement, and the getNewForm() combines the definition of HTTP method and path into one, 
+so that GET requests for appointments/new are handled by that method.
+
+The getForDay() method shows another usage of @RequestMapping: URI templates. (See the next section ).
+
+A @RequestMapping on the class level is not required. Without it, all paths are simply absolute, and not relative.
+
+In Spring MVC you can use the @PathVariable annotation on a method argument to bind it to the value of a URI template variable.
+To process the @PathVariable annotation, Spring MVC needs to find the matching URI template variable by name
+
+Use the @RequestParam annotation to bind request parameters to a method parameter in your controller.

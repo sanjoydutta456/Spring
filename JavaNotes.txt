@@ -1,0 +1,8 @@
+ArrayList and LinkedList. Which of the two List implementations you use depends on
+your specific needs. If you need to support random access, without inserting or removing
+elements from any place other than the end, then ArrayList offers the optimal collection.
+If, however, you need to frequently add and remove elements from the middle of the list and
+only access the list elements sequentially, then LinkedList offers the better
+implementation.
+
+

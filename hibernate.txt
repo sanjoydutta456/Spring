@@ -1,0 +1,461 @@
+Adv Of HIBERNATE Framework over JDBC API
+----------------------------------------
+1) Project development cost is reduced.
+2) Used best JDBC concepts such as:
+	a) Batch operations instead of individual operations
+	b) PreparedStatement instead of Statement
+	c) Rowset instead of ResultSet
+	d) DataSource (connection pooling) instead of DriverManager
+3) Managing associations such as one-to-many, etc is simple as working with collection properties like java.util.Set, List, Map.
+4) No memory leaks since resources are automatically released by framework.
+5) Being ORM framework, the Hibernate will get all its befinits:
+	a) object becomes record and vice versa
+	b) Supports multiple primary key generators
+	c) Supports Second level cache
+	d) Additionally supports Object Query Language (HQL)
+
+Gavin King
+
+Collection API such as List, Set, Map.
+
+Hibernate is a ORM (Object Relational Mapping)
+SQL
+HQL
+
+
+General Java Class
+------------------
+	-fields
+	-constructors
+	-methods
+   
+	-Reflection Mechanism
+		--java.lang.Class
+		--java.lang.reflect package
+			---Field
+			---Constructor
+			---Method
+			---Modifier
+
+Java beans
+----------
+	- properties
+	- methods
+	- events
+	
+	-Introspection mechanism
+		--java.beans package
+		--java.lang.reflect pacakge
+
+Hibernate - POJO  (Java bean without events)
+Struts    - form beans
+Spring    - bean components
+JSP       - use beans
+JSF	  - Managed beans
+Web Services - Service class
+...
+
+		Hibernate Architecture
+		======================
+#Hibernate Configuration file
+#hibernate.cfg.xml   which is a default hibernate configuration file name
+<hibernate-configuration>
+	<property name="driverClassName">oracle.jdbc.dirver.OracleDriver</>
+	<property name="url">jdbc:oracle:thin:@localhost:1521:xe</>
+	<property name="username">system</property>
+	<property name="password">manager</property>
+	...
+</hibernate-configuration>
+-----------------------------------------------------------
+
+Configuration cfg = new Configuration();
+	-Starts hibernate framework.
+
+cfg.configure("hibernate.cfg.xml");
+	-Loads hibernate configuration file into hibernate framework.
+	-Parses hibernate configuration file using DOM/SAX parsers.
+	-Create key/value based Map such HashMap, where property name becomes key and property value becomes value in the HashMap
+
+Builds session factory object and all hibernate properties are handed over to SessionFactory.
+	SessionFactory sf = cfg.buildSessionFactory();
+The session factory uses above connection properties to create and manage pool of connections.
+Note: In Hibernate, it is the responsibility of SessionFactory to create & manage pool of connections.
+
+Open Session interface with db:
+   Session s = sf.openSession();
+	--save()  : INSERT
+    	--get()   : SELECT
+	--udpate(): UPDATE
+	--delete(): DELETE
+	...
+
+Begin transaction
+	Transaction tx = s.beginTransaction();
+
+Note: The Configuration class is used to initialize hibernate framework.
+
+Download Hibernate software
+--------------------------
+url: http://hibernate.org
+
+
+Steps in Hibernate application
+==============================
+1) Relational Modeling
+	- Table name
+	- Column names
+	- Column types
+	- Column constrains such as primary key, unique, not null, check, etc
+	- Association among tables
+		-- one-to-many
+		-- many-to-one
+		-- many-to-many
+		-- one-to-one
+
+2) Domain Modeling
+	- POJO class name
+	- Property names
+	- Property types
+	- Associations among POJO classes using collection properties such as java.util.Set, List, Map.
+
+3) Hibernate Mapping file (.hbm.xml)
+	Maps between domain modeling with relational modeling.
+
+4) Hibernate Configuration file (.cfg.xml)
+	Which contains hibernate properties.
+
+5) Client code (DAOImpl - Data Access Object)
+
+
+
+DTD symbols
+-----------
+? - 0 or 1
+* - 0 or more
++ - 1 or more
+no symbol - Exactly once
+
+The 'dialect' property is used to map hibernate type with db type.
+	
+s.beginTransaction()
+--------------------
+	-Get connection from the pool via session
+	-con.setAutocommit(false); // Disables autocommit mode and begins tx
+
+s.flush()
+---------
+1) Prepares appropriate query (INSERT)
+2) Create JDBC Stement(pstmt)
+3) Invoke setter methods on pstmt
+	pstmt.setInt(1, s1.getSno());
+	pstmt.setString(2, s1.getSname);
+	...
+4) Execute query by invoking execute() method
+5) close pstmt
+
+tx.commit()   //hibernate tx
+-----------
+   -Automatically invokes flush() method	
+   -commit tx
+   -returns connection back to pool
+
+
+con.commit()   //jdbc tx
+------------
+   -commits tx
+
+
+SELECT operation
+----------------
+The Session interface contains following methods to fetch data from database:
+1) load()
+2) get()
+3) createSQLQuery(String sqlQuery)
+4) createQuery(String hqlQuery)
+5) getNamedQuery(String aliasName)
+6) createCritiria()
+
+load()
+------
+Syntax:
+-------
+     public Object load(Class theClass, Serializable id)throws HibernateException
+Example:
+     Student s1 = (Student)s.load(Student.class, new Integer(1));
+     Initially load() method returns proxy object ie., incomplete object.
+     sno=1
+     sname=null
+     email=null
+     mobile=0
+		
+     sop(s1.getSno());//1
+     sop("*****");
+     sop(s1.getEmail());
+     When any getter method other than id property is invoked on proxy object then SELECT query will be executed and projects all columns of a table. Subsequently the above proxy object is replaced with persistant object.
+     The load() method "lazily" fetches an object only after invoking any getter method other than id property is invoked.
+
+get()
+----
+syntax
+------
+	public Object get(Class theClass, Serializable id)throws HibernateException
+Example:
+        Student s1 = (Student)s.get(Student.class, new Integer(1));
+	sop("****");
+	The get() method eagerly fetches object into session memory i.e., returns persistant object.
+
+Differences between load() and get() methods
+--------------------------------------------
+load()
+------
+1) The load() method "lazily" fetches an object only after invoking any getter method other than id property.
+2) Initially load() method returns proxy object (incomplete object).
+3) The load() method throws an exception (ObjectNotFoundException) when matching primary key number does not exist.
+
+get()
+-----
+1) The get() method "eagerly" means immediatly fetches an object without (or before) invoking any getter method.
+2) The get() method always returns persistant object (complete object).
+3) The get() method returns null when matching primary key number does not exist.
+
+evict()
+-------
+syntax:
+	public void evict(Object pojoObj)
+Example:
+	s.evict(s1);
+	The object is removed from session memory and placed inside heap memory. The object state becomes "detached".
+
+			Primary Key Generators
+			======================
+Hibenate supports many primary key generators:
+assigned | sequence | identity | native | increment | UUID | hilo  | etc
+
+sequence
+--------
+The following databases support sequence:
+1) Oracle
+2) PostgreSQL
+3) DB2
+4) SAP DB
+5) McKoi
+
+identity
+--------
+The following databases support identity:
+1) MSSQL
+2) MYSQL
+3) HSQLDB
+4) DB2
+5) SYBASE
+
+<hibernate-mapping>
+    <class name="edu.aspire.Employee" table="EMPLOYEE">
+	<id name="empno" column="EMPNO" type="integer">
+		<generator class="sequence">
+			<param name="sequence">EMPLOYEE_SEQ</param>
+		</generator>
+	</id>
+    </class>
+</hibernate-mapping>
+
+			ASSOCIATIONS
+			============
+Managing associations such as one-to-many, many-to-one, many-to-many or one-to-one using hibernate framework is as simple as working with collection properties such as java.util.Set, List, Map.
+
+Associations w.r.t domain modeling
+----------------------------------
+1) The one-to-many association in Relational modeling is represented as one of the collection property such as java.util.Set, List, Map in domain modeling.
+2) The foreign key column in relational modeling is represented as object of the associated pojo in the domain modeling.
+
+Example:
+public class Team implements Serializable{
+	private int id;			//id property
+	private String name;		//common property
+	private Set<Player> players;	//collection property
+
+	public void setPlayers(Set<Player> players){this.players = players;}
+	public Set<Player> getPlayers(){return this.players;}
+	...
+}
+
+public class Player implements Serializable{
+	private int id;		//id property
+	private String name;	//common property
+	private int age;	//common property
+	private Team team;	//foreign key property
+	
+	public void setTeam(Team team){this.team = team;}
+	public Team getTeam(){return this.team;}
+	...
+}
+
+Conclusion: 
+1) The primary key column in relation modeling becomes id property in domain modeling.
+2) The common column in relational modeling becomes common property in domain modeling.
+3) The one-to-many association in relatinal modleing becomes collection property in domain modeling.
+4) The foreign key column in relatinal modleing becomes foreign key property in domain modeling. 
+
+Associations w.r.t hib mapping files
+------------------------------------
+#Team.hbm.xml
+<hibernate-mapping>
+  <class name="Team" table="TEAM">
+	<!--id property -->
+	<id>
+	
+	<!--common property -->
+	<property>
+
+	<!--collection property -->
+	<set name="players" table="PLAYER" cascade="none | all | save-update | persist | merge | ..."  lazy="true | false"  inverse="false|true">
+		<!--foreign key column name-->
+		<key column="TEAM_FK"/>
+		<one-to-many class="Player"/>
+	</set>
+  </class>
+</hibernate-mapping>
+
+<set 	name="collection property name" [players]
+	table="associated table name"	[PLAYER]
+	cascade="none | all | save-update | persist | merge | ..." [none]
+	lazy="true | false"	[true]
+	inverse="false | true"  [false]>
+	
+
+
+#Player.hbm.xml
+<hibernate-mapping>
+  <class name="Player" table="PLAYER">
+	<!--id property -->
+	<id>
+	
+	<!--common property -->
+	<property>
+	<property>
+
+	<!--foreign key property -->
+	<many-to-one name="team" column="TEAM_FK" class="Team"/>
+  </class>
+</hibernate-mapping>
+
+Conclusion:
+1) The id property in domain modeling is defined using <id> in mapping file.
+2) The common property in domain modeling is defined using <property> in mapping file.
+3) The collection property in domain modeling is defined using <list> or <set> or <map> in mapping file.
+4) The foreign key property in domain modeling is defined using <many-to-one> in mapping file.
+
+Session oraclSession = OracleHibernateUtils.openSession();  //for oracle db
+Session hsqldbSession= HSQLDBHibernateUtils.openSession();  //for HSQL database
+
+Object states
+-------------
+In hibernate, the pojo object is in one of 3 states:
+1) Transient object
+	newly created object i.e., the corresponding record in db does not exist.
+2) Persistent object
+	Associted with session
+3) Detached object
+	Removed from session but associated with heap memory. the corresponding record in db does exist.
+
+The value of 'unsaved-value' attribute recommended to be same as default initialization values.
+
+s.saveOrUpdate(e1)
+-------------------
+	-It automatically invokes save(e1) if e1 is a transient object.
+	-It automatically invokes update(e1) if e1 is a detached object.
+
+In Hibernate API, the contains() method is used to know persistant or non-persistant object.
+But in Hibernate API there is no method to differentiate between transient and detached objects, because both of them are outside session memory.
+
+The 'unsaved-value' attribute is used to differentiate between transient & detached object.
+The saveOrUpdate() method compares 'id' value in object with 'unsaved-value' attribute in hibenate mapping file.
+If they same, then saveOrUpdate() method calls save() method, otherwise, saveOrUpdate() method calls update() method.
+
+
+The actual database operations are differed until u call flush() method to support batch operations.
+
+
+SQL: Structured Query Language
+HQL: Hibernate Query Language
+
+SQL: SELECT * FROM CUSTOMER;
+HQL: select c from Customer c;
+
+Query q = s.createQuery(String hqlQuery);
+
+
+Query q = s.createQuery("select new CustomerVO1(c.customerName, c.customerPhone) from Customer c");
+
+public class CustomerVO1 implements Serializable{
+	private String customerName;
+	private String customerPhone;
+	public CustomerVO1(){}
+	public CustomerVO1(String name, String phone){
+		this.customerName = name;
+		this.customerPhone = phone;
+	}
+	//setter & getter methods
+}
+
+List<CustomerVO1> customers = q.list();
+for(CustomerVO1 c : customers){
+	sop(c.getCustomerName());
+	sop(c.getCustomerPhone());
+}
+
+
+	         Query query1 = session
+			.createQuery ("select c.customerName,  
+                             c.businessType from Customer c");
+		List<Object[]> list1 = query1.list();
+		Iterator<Object[]> ite1 = list1.iterator();
+		while (ite1.hasNext()) {
+			Object[] obj =  ite1.next();
+			String customerName = (String) obj[0];
+			String businessType = (String) obj[1];
+			System.out.println("CUSTOMERNAME::::" + customerName);
+			System.out.println("CUSTOMERADDRESS:::" + businessType);
+		}
+---------------------------------------------------------
+				JPA Annotations
+				===============
+
+In HIBERNATE application:
+1) Relational modeling
+2) POJO classes
+3) .hbm.xml
+4) .cfg.xml
+5) DAO Impl classes
+
+JPA (Java Persistance API)
+==========================
+1) JP Specification (JSR-317)
+	-SUN
+	-.pdf (persistence-2_0-final-spec.pdf)	
+	-Description
+
+2) JP API
+	-SUN
+	-Mostly Annotation names
+	-Mostly Interfaces
+	-javax.persistence package
+	 ...	
+
+3) JP Implementation
+	-Every ORM Vendor
+	-Impl classes for all annotation names and interfaces
+	-hibernate-jpa-2.0-api-1.0.0.Final.jar
+
+
+HIBERNATE API			JP API
+=============			======
+1) Configuration		1) Persistence
+2) SessionFactory		2) EntityManagerFactory
+3) Session			3) EntityManager
+4) Transaction			4) EntityTransaction
+5) save()/persist()		5) persist()
+6) load()/get()			6) find()
+7) update()/merge()		7) merge()
+8) delete()			8) remove()
+9) getNamedQuery()		9) createNamedQuery()

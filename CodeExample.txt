@@ -1,0 +1,41 @@
+
+Example1:
+---------
+
+-------------------------------
+public String getBillingPeriod(Invoice invoice) {
+		LOGGER.info("executing getBillingPeriod in BillingDocgenHelperImpl");
+		DateFormat formatter = new SimpleDateFormat(GLICDocgenCommonConstant.BILLING_PERIOD_FORMAT);
+				
+		return Optional.ofNullable(invoice)
+					.map(Invoice::getInstallments).orElseGet(ArrayList::new)
+					.stream()
+					.map(Installment::getBilledToDate)
+					.filter(billedToDate  -> null != billedToDate)
+					.max(Comparator.nullsFirst(Comparator.naturalOrder()))
+					.map(date -> {
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(date);
+						calendar.add(Calendar.DATE, -1);
+						return formatter.format(calendar.getTime());
+					})
+					.orElse(null);
+		
+	}
+
+
+---------------------------
+
+   Optional<BillingAccount> optionalBillingAccount = Optional.ofNullable(billingAccount);
+   Optional<PaymentDetails> optionalPaymentDetails = optionalBillingAccount.map(BillingAccount::getBillingInfo)
+						     .map(BillingInfo::getDefaultPaymentMethod);
+----------------------------
+@Override
+	public BigDecimal getPriorBillingAmount(Invoice previousInvoice) {
+		LOGGER.info("executing getPriorBillingAmount in BillingDocgenHelperImpl");
+		return Optional.ofNullable(previousInvoice).map(Invoice::getAmount).orElse(BigDecimal.ZERO);
+	}
+-----------------------------
+Optional<Date> optionalBillDueDate = Optional.ofNullable(installmentDto.getBillDueDate());
+if(optionalBillDueDate.isPresent()){
+}
