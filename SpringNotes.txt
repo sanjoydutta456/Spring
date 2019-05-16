@@ -1,0 +1,426 @@
+registerShutdownHook() Spring Example
+---------------------------------
+In spring, registerShutdownHook() method is used to shut down IoC container in non-web applications. It shuts down IoC container gracefully.
+In non web based application like desk top application it is required to call registerShutdownHook. In our desktop application we need to release 
+all resources used by our spring application. So we need to ensure that after application is finished, destroy method on our beans should be called.
+In web-based application ApplicationContext already implements code to shut down the IoC container properly. But in desktop application we need to 
+call registerShutdownHook to shutdown IoC container properly. 
+
+As you are aware that ContextLoaderListener is the one that takes care of initializing and destroying your ApplicationContext, when you shutdown your 
+server, that ContextLoaderListener's contextDestroyed method is invoked.
+  public void contextDestroyed(ServletContextEvent event){
+    closeWebApplicationContext(event.getServletContext());
+    ContextCleanupListener.cleanupAttributes(event.getServletContext());
+  }
+
+In that closeWebApplicationContext, they actually call the close method on ApplicationContext like this
+  if ((this.context instanceof ConfigurableWebApplicationContext)) {
+    ((ConfigurableWebApplicationContext)this.context).close();
+  }
+
+This is straight from spring-web-4.1.5.jar. As it is evident from here, they use close to destroy ApplicationContext in web applications
+But registerShutdownHook is used to explicitly shut down IoC container in non-web applications something like a standalone desktop application, 
+specially when you're creating the ApplicationContext manually from ClassPathXmlApplicationContext (or) FileSystemXmlApplicationContext (or) some other types. 
+
+This is done to release all resources used by your spring application and to call destroy method on your spring beans if any.
+
+A web application will run as long as the application server that deploys it runs. It is up to the application server (and not to you) to correctly
+ start and stop your application. This means that when the application server is stopped, the servlet context is destroyed. In a Spring application,
+ the ContextLoaderListener class registered in web.xml listens to this event (context destroyed) to properly close the Spring context.
+
+When using Spring outside of an application server (like a standalone application), it is up to you to correctly stop the Spring context. As you said, this
+can be done by explicitly calling context.close() or registering a shutdown hook (context.registerShutdownHook()) that makes this call for you.
+
+Both registerShutdownHook() and close() methods call the same code to close the Spring context.
+
+Spring Bean Life Cycle
+-----------------------
+The most important feature of Spring is the bean based approach. The Spring bean is created, managed and dispensed by the Spring IoC container. 
+Each Spring bean has a lifecycle and understanding the spring bean lifecycle enables better coding. 
+
+The life cycle of a Spring bean is very easy to understand. When a bean is instantiated, it may be required to perform some initialization to get 
+it into a usable state. Similarly, when the bean is no longer required and is removed from the container, some cleanup may be required. There are also
+ other activities between initialization and destruction of the bean. These activities take place behind the scenes. . The following are the stages 
+ in a bean’s lifecycle.
+1.Instantiate - The Spring container instantiates the bean.
+2. Populate properties- Spring IoC container injects the bean’s properties.
+3. Set Bean Name- Spring container sets the bean name. If the bean implements BeanNameAware, spring container passes the bean’s id to setBeanName() method.
+4.Set Bean Factory-If the bean implements BeanFactoryAware, Spring container passes theBeanFactory to setBeanFactory().
+5.Pre Initialization-This stage is also called the bean postprocess . If there are anyBeanPostProcessors, theSpring container calls the 
+postProcesserBeforeInitialization () method.
+6.Initialize beans- If the bean implements IntializingBean,its afterPropertySet()method is called. If the bean has init method declaration, the specified 
+initialization method is called.
+7.Post Initialization- IfBeanPostProcessors is implemented by the bean, the Spring container calls their postProcessAfterinitalization() method.
+8. Ready to Use- Now the bean is ready to be used by the application.
+9.Destroy- The bean is destroyed during this stage. If the bean implements DisposableBean, the Spring IoC container will call the destroy() method . 
+If a custom destroy () method is defined, the container calls the specified method.
+
+Although there are many stages in the Spring bean lifecycle, this tutorial will discuss only two important bean lifecycle callback methods which are 
+required at the time of bean initialization and its destruction. 
+
+To define setup and teardown methods for a bean, we simply declare the with init-method and/or destroy-method parameters. The init-method attribute 
+specifies a method that is to be called on the bean immediately upon instantiation. Similarly, destroy-method specifies a method that will be called 
+just before a bean is removed from the container.
+
+Initialization callbacks 
+
+The org.springframework.beans.factory.InitializingBean interface specifies a single method: 
+
+Listing 1: Single method
+
+
+voidafterPropertiesSet() throws Exception; 
+
+
+
+So you can simply implement above interface and initialization work can be done inside afterPropertiesSet() method as follows: 
+
+Listing 2: afterPropertiesSet() method
+
+
+public class SampleBean implements InitializingBean { 
+public void afterPropertiesSet() { 
+// perform some initialization work here
+} 
+} 
+
+
+When using the XML-based configuration metadata, you can use the init-method attribute to specify the name of the method that has a return void, 
+no argument method signature. The following is small example.
+
+Listing 3: Small Example
+
+
+<bean id="sampleBean" 
+class="com.src.sample.SampleBean" init-method="init"/>
+
+
+Listing 4: The sample class definition: 
+
+public class SampleBean { 
+public void init() { 
+// do some initialization work 
+} 
+} 
+
+
+Destruction callbacks 
+
+The org.springframework.beans.factory. DisposableBean interface specifies a single method: 
+
+Listing 5: Single Method
+
+void destroy() throws Exception; 
+
+
+So to enable a destroy callback, simply implement the above interface and finalization work can be done inside destroy() method as follows: 
+
+Listing 6: destroy()
+
+public class SampleBean implements DisposableBean { 
+public void destroy() { 
+// do the work to be performed before bean destruction
+} 
+} 
+
+
+When using the XML-based configuration metadata, you can use the destroy-method attribute to specify the name of the method that has a return void, 
+no argument method signature. The following is small example.
+
+Listing 7: Small example
+
+
+<bean id="sampleBean" 
+class="com.src.sample.SampleBean" destroy-method="destroy"/>
+
+
+Listing 8: The class definition: 
+
+public class SampleBean { 
+public void destroy() { 
+// do some destruction work 
+} 
+} 
+
+
+If you are using Spring's IoC container in a non-web application environment (as in client desktop environment), it is required to register a 
+shutdown hook with the JVM. Doing so ensures a graceful shutdown and calls the relevant destroy methods on the singleton beans so that all 
+resources are released properly. 
+
+It is recommended to avoid using the InitializingBean or DisposableBean callbacks, because XML configuration gives much more flexibility in 
+terms of naming the method. 
+
+Example Application
+
+To start off, a working Eclipse IDE should be in place. Once the IDE is ready, follow the following steps to create a Spring application:
+1.Create a project with a name SpringSample and create a package com.src.sample under the src folder in the created project. 
+2.Add required Spring libraries using Add External JARs option 
+3.Create Java classes HelloWorld and SampleMain under the com.src.sample package. 
+4.Create Beans configuration file beans.xml under the src folder. 
+5.The final step is to create the content of all the Java files and Bean Configuration file and run the application as explained below. 
+
+Listing 9: Starting Spring Application
+
+packagecom.src.sample; 
+public class HelloWorld { 
+private String message; 
+public void setMessage(String message){ 
+this.message = message; 
+} 
+public void getMessage(){ 
+System.out.println("The Greeting Message : " + message); 
+} 
+public void init(){ 
+System.out.println("The Bean is within the init()."); 
+} 
+public void destroy(){ 
+System.out.println("Bean is about to be destroyed now."); 
+} 
+} 
+
+
+Following is the content of the SampleMain.java file. Here it is required to register a shutdown hook- registerShutdownHook() method that is 
+declared on the AbstractApplicationContext class. This will ensures a graceful shutdown and calls the relevant destroy methods.
+
+Listing 10: SampleMain.java
+
+packagecom.src.sample; 
+importorg.springframework.context.support.AbstractApplicationContext; 
+import org.springframework.context.support.ClassPathXmlApplicationContext; 
+public class SampleMain{ 
+public static void main(String[] args) { 
+AbstractApplicationContext context = 
+newClassPathXmlApplicationContext("Beans.xml"); 
+HelloWorldobj = (HelloWorld) context.getBean("helloWorld"); 
+obj.getMessage(); 
+context.registerShutdownHook(); 
+} 
+}
+
+
+Following is the configuration file beans.xml required for init and destroy methods:
+
+Listing 11: beans.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<bean id="helloWorld" class="com.src.sample.HelloWorld" init-method="init" destroy-method="destroy">
+<property name="message" value="Hello World!"/>
+</bean>
+</beans>
+
+
+Once the source files are created and bean configuration files are ready, the application is ready for running. If everything is fine with 
+the created application, the following two lines will print on the sysout. 
+
+Listing 12: Printing on the sysout
+
+The Bean is within the init().
+The GreetingMessage :Hello World! 
+Bean is about to be destroyed now.
+
+
+Default initialization and destroy methods 
+
+If there are too many beans having initialization and / or destroy methods with the same name, there is no need to declare init-method and 
+destroy-method on every individual bean. Instead, the framework provides the facility to configure the init and destroy methods using 
+default-init-method and default-destroy-method attributes on the <beans> element as follows: 
+
+Listing 13: <beans>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" 
+default-init-method="init" 
+default-destroy-method="destroy">
+<bean id="..." class="...">
+<!-- collaborators and configuration for bean goes here-->
+</bean>
+</beans>
+
+
+The Spring Beans lifecycle callbacks allow for custom methods to be hooked to the bean that are invoked by the container. Knowing the available
+callbacks helps in efficient programming and rich applications.
+
+Spring Bean Life cycle
+Spring container takes the responsibility of complete life cycle management. But there are certain chances that you need to implement your 
+own logic before and after bean initialization or destroy callbacks. 
+
+ Spring offers two interfaces to manage life cycle callbacks :  InitializingBean and DisposableBean interface.
+
+InitializingBean offeres afterPropertiesSet() and DisposableBean offeres destroy() method to perform callbacks on Bean. 
+
+Note*: Spring framework internally uses BeanPostProcessor for any callback interface implementation. If framework finds any callback implementation,
+ it processes that. 
+
+ Initialization CallBack
+
+
+Initialization callback method gets executed after all the properties related to that bean have been set by container. 
+The org.springframework.beans.factory.InitializingBean interface allows you to peform initialization work using afterPropertiesSet() method. 
+
+Method Body
+
+ void afterPropertiesSet() throws Exception;
+Example <bean id="serviceBean" class="com.package.ServiceBean" />
+Related Class public class ServiceBean implements InitializingBean {
+
+ public void afterPropertiesSet() {
+ // perform some initialization work
+ }
+}
+
+ Note*: Afternatively you can use @PostConstruct annotation in your annotation based class. Similarly, if you are using XML based configuration 
+ then you can use init-method attribute of <bean/> in your bean definition. 
+
+ Or you can use initMethod attribute of @Bean in case you are using Java config class. Example :
+
+<bean id="serviceBean" class="com.package.ServiceBean" init-method="init" />
+Java Class public class ServiceBean {
+
+ public void init() {
+ // perform initializtion work here..
+ }
+}
+
+ Note*: It is better to use init-method instead of implementing InitializingBean interface as both the examples are doing same work.
+
+
+Destruction CallBack
+
+
+If you want to perform some cleaning or resource release operation before bean gets destroyed, then you can implement 
+org.springframework.beans.factory.DisposableBean interface which provides destory() method. method body void destroy() throws Exception; 
+
+Note*: Alternatively, you can use @PreDestory annotation on specific method for annotation based configuration. Or you can use destroy-method 
+attribute on <bean/> element for XML based bean definition. 
+
+ Similarly, use destroyMethod attribute of @Bean for java based bean definition. Exmaple
+
+ <bean id="serviceBean" class="com.package.ServiceBean" destroy-method="destroy" />
+
+ Related Java Class
+
+ public class ServiceBean {
+
+ public void destroy() { // do some cleaning work here.. }
+}
+
+ which is similar to the following method : Bean definition <bean id="serviceBean" class="com.package.ServiceBean" />
+
+ Java Code
+
+ public class ServiceBean implements DisposableBean {
+
+ public void destroy() { }
+}
+
+ which unnecessarily couples the code to the spring framework.   
+
+Default Init and Destroy Method configuration You can also set default init or destroy method as part of your beans configuration metadata. 
+You can use default-init-method and default-destroy-method of <beans/> element which takes method name as value and checks for these method names 
+in every bean class and executes the same. 
+
+ You don’t need to manually specify init and destroy method separately for each bean definition.
+
+<beans default-init-method="init">
+
+</beans>
+And <beans default-destroy-method="destroy">
+
+</beans>
+
+Spring BeanPostProcessor:
+-------------------------
+With the help of Spring BeanPostProcessor, you can easily process the instance created by the Spring IoC container. You can write your own 
+logic after a bean is created by the container like resource resolution, read some data from external file, validate the data member values etc. 
+Any bean implementing BeanPostProcessor is processed first by the container. You can also control the order in which more than one BeanPostProcessor
+ should get executed by setting order property. You can only set this property if the BeanPostProcessor implements the Ordered interface. 
+Important thing to remember
+Any bean you write which implements BeanPostProcessor is not eligble for AOP proxies because AOP proxies are applied this way. So be careful when 
+writing codes, it is possible that AOP proxy may not yet have applied to bean instance. ApplicationContext automatically detects bean which 
+implements the BeanPostProcessor interface. The ApplicationContext registers these beans as post-processors and will be processed later by the container.
+ BeanPostProcessor proivdes two methods as follow : public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException;
+
+public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException;
+
+Sample Example on how to implement BeanPostProcessor
+Bean Class package com.bpp;
+
+public class HelloBPP {
+
+ private String name;
+
+ public void setName(String name) {
+ this.name = name;
+ }
+
+ public String getName() {
+ return this.name;
+ }
+
+ public void init() {
+ System.out.println("Init method called..");
+ }
+
+ public void destroy() {
+ System.out.println("Destroy method called..");
+ }
+}
+Bean implementing the BeanPostProcessor package com.bpp;
+
+
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.BeansException;
+
+public class BppProcessor implements BeanPostProcessor {
+
+ public Object postProcessBeforeInitialization(Object bean,
+ String beanName) throws BeansException {
+ return bean;
+ }
+
+ public Object postProcessAfterInitialization(Object bean,
+ String beanName) throws BeansException {
+ System.out.println("Bean '" + beanName + "' created : " + bean.toString());
+ return bean;
+ }
+
+}
+Writing beans.xml (Bean Definition) <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:lang="http://www.springframework.org/schema/lang"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/lang
+ http://www.springframework.org/schema/lang/spring-lang.xsd">
+
+
+ <bean id="helloBPP" class="com.bpp.HelloBPP" init-method="init" destroy-method="destroy">
+ <property name="name" value="Ashish" />
+ </bean>
+
+ <bean class="com.bpp.BppProcessor"/>
+
+</beans>
+Finally calling the bean import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.bpp.HelloBPP;
+
+public class Main {
+
+ public static void main(final String[] args) throws Exception {
+ ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+ HelloBPP helloBPP = (HelloBPP) ctx.getBean("helloBPP");
+ System.out.println(helloBPP);
+ }
+
+}
+
+
