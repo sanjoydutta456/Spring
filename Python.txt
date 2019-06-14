@@ -1,0 +1,217 @@
+
+https://www.learnpython.org/en/Modules_and_Packages
+-------------------------------------------------------
+Python Notes:
+-------------
+
+Python is a very simple language, and has a very straightforward syntax. It encourages programmers to program without boilerplate (prepared) code. The simplest directive in Python is the "print" directive - it simply prints out a line (and also includes a newline, unlike in C).
+
+There are two major Python versions, Python 2 and Python 3. Python 2 and 3 are quite different
+
+For example, one difference between Python 2 and 3 is the print statement. In Python 2, the "print" statement is not a function, and therefore 
+it is invoked without parentheses. However, in Python 3, it is a function, and must be invoked with parentheses
+
+
+
+History of Python:
+------------------
+
+
+
+
+
+
+
+
+
+
+Variables and Types:
+--------------------
+
+Numbers:
+-------
+Python supports two types of numbers - integers and floating point numbers
+Strings:
+Strings are defined either with a single quote or a double quotes.
+
+Lists:
+
+Lists are very similar to arrays. They can contain any type of variable, and they can contain as many variables as you wish. Lists can also be iterated over in a 
+very simple manner.
+
+mylist = []
+mylist.append(1)
+mylist.append(2)
+mylist.append(3)
+print(mylist[0]) # prints 1
+print(mylist[1]) # prints 2
+print(mylist[2]) # prints 3
+
+# prints out 1,2,3
+for x in mylist:
+    print(x)
+
+------------------------------------------------
+
+mylist = [1,2,3]
+
+ print(mylist[1])
+------------------------------------
+
+Basic Operators:(+,-,*,/,%,**,//)
+Logical Operators:(and,or)
+-------------------------------------------
+
+a=5
+b=2
+c=int(a)**2
+d=int(b)**3
+print("Square of a is:",c) #Square of a is: 25
+print("Cube of b is:",d)#Cube of b is: 8
+e=int(a)/int(b) 
+print("e is:",e)#e is: 2.5
+f=int(a)//int(b)
+print("f is:",f)#f is: 2
+
+-----------------------------------------------
+Loops:
+------
+1.For loop Syntax:
+------------------
+# Prints out the numbers 0,1,2,3,4
+for x in range(5):
+    print(x)
+
+# Prints out 3,4,5
+for x in range(3, 6):
+    print(x)
+
+# Prints out 3,5,7
+for x in range(3, 8, 2):
+    print(x)
+
+2.while loop Syntax:
+--------------------
+While loops repeat as long as a certain boolean condition is met.
+For example:
+
+"while" loops:
+count = 0
+while count < 5:
+    print(count)
+    count += 1  # This is the same as count = count + 1
+
+
+-------------------------------------------
+"break" and "continue" statements:
+-------------------------------------------
+count = 0
+while True:
+    print(count)
+    count += 1
+    if count >= 5:
+        break
+
+# Prints out only odd numbers - 1,3,5,7,9
+for x in range(10):
+    # Check if x is even
+    if x % 2 == 0:
+        continue
+    print(x)
+
+Functions:
+----------
+Functions in python are defined using the block keyword "def", followed with the function's name as the block's name.
+For example:
+
+def my_function():
+    print("Hello From My Function!")
+def sum_two_numbers(a, b):
+    return a + b
+# print(a simple greeting)
+my_function()
+
+# after this line x will hold the value 3!
+x = sum_two_numbers(1,2)
+
+
+----------------------------------------------
+Prog1.py(if-elif-else example)
+-----------------------------
+a=2
+b=4
+c=8
+d=int(a)+int(b)+int(c)
+print("Sum is:",d)
+if int(a)>int(b)and int(a)>int(c) :
+    print("a is biggest")
+elif int(b)>int(a)and int(b)>int(c) :
+    print("b is biggest")
+else:
+    print("c is biggest")
+
+--------------------------------------------
+Prog2.py(odd-even example)
+--------------------------
+x=int(4)
+y=int(6)
+z=x+y
+print(x, "and", y , "is:",z)
+if z%2==0:
+    print("Number is even")
+else:
+    print("Number is odd")	
+
+
+
+
+---------------------------------
+
+Example1(Using Class and object):
+---------
+
+class MyClass:
+    variable = "blah"
+
+    def function(self):
+        print("This is a message inside the class.")
+
+myobjectx = MyClass()
+
+myobjectx.variable
+myobjectx.function()
+
+Example2:
+---------
+
+# define the Vehicle class
+class Vehicle:
+    name = ""
+    kind = "car"
+    color = ""
+    value = 100.00
+    def description(self):
+        desc_str = "%s is a %s %s worth $%.2f." % (self.name, self.color, self.kind, self.value)
+        return desc_str
+# your code goes here
+car1=Vehicle()
+car2=Vehicle()
+# test code
+print(car1.description())
+print(car2.description())
+
+---------------------------------------
+
+class Rectangle:
+ 
+    def __init__(self, length,breadth):
+        self.length = length   
+	self.breadth = breadth
+        
+    def area(self):
+        print("Area is,int(self.length) * int(self.breadth)")
+            
+    
+
+x = Rectangle(10,20)
+x.area()
