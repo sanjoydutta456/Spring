@@ -1,0 +1,40 @@
+StudentService.java
+-----------------------
+@Service
+public class StudentService {
+	static List<Student> sList=new ArrayList<Student>();
+	
+	static
+	{
+		Student s1=new Student("S001","Sanjoy","Jadavpur");
+		Student s2=new Student("S002","Papia","Selimpur");
+		Student s3=new Student("S003","Debopriyo","Dhakuria");
+		Student s4=new Student("S004","Parimal","Dumdum");
+		sList.add(s1);
+		sList.add(s2);
+		sList.add(s3);
+		sList.add(s4);
+	}
+	
+	public List<Student> getAllStudents() {
+		
+		
+		return sList;
+	}	
+
+}
+
+StudentRestController.java
+-----------------------------
+public class StudentRestController {
+	
+	@Autowired
+	StudentService sService;
+	
+	@RequestMapping(value="allStudentDetails", method=RequestMethod.GET)
+	
+	public List<Student> getAllStudenDetails()
+	{
+		return sService.getAllStudents();
+	}
+}
