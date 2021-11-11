@@ -1,0 +1,705 @@
+﻿https://forge.lmig.com/wiki/display/ESERV/Sandbox+S3+Bucket+Policy+Config
+GUA-21897
+JIRA Issue:
+-----------------
+https://jira.exigeninsurance.com/projects/EISQ/issues/EISQ-103?filter=allissues
+shubham.banerjee
+Sujata5678*
+
+reportedLossCause
+
+GUA-19748
+GUA-19747
+
+GUA-19279
+2. Start Docker, open a terminal window.
+
+3. Load the image
+
+$> docker load < <path-to-file>/orcl_12_1071_image.tar
+...
+Loaded image: oracle/database:12.2.0.1-ee
+4. Get image id
+
+$> docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+oracle/database     12.2.0.1-ee         699074d9a3ae        4 months ago        5.97GB
+5. Run the image.
+
+$> docker run -d --name eis-core-db -p 1521:1521 -e ORACLE_SID=XE -e ORACLE_PDB=ORCLPDB1 -e ORACLE_ALLOW_REMOTE=true <image-id>
+If you want the container to be removed when it is stopped/when you reboot, add the "--rm" flag.
+
+6. Get container id
+
+$> docker ps
+CONTAINER ID        IMAGE               COMMAND
+195a6cb6b8b1        699074d9a3ae        "/bin/sh -c 'exec $O…"
+
+
+20234
+------------
+
+<property name="providedConnectionPoints">
+			<map merge="true">
+				<entry key="claimLossEventAddressEntity">
+					<bean parent="pf.connectionInfoTemplate"
+						  p:connectionPointType="Multiple">
+						<property name="className"
+								  value="com.exigen.ipb.claims.domain.ClaimsAddressContactEntity" />
+					</bean>
+				</entry>
+
+			</map>
+		</property>
+application-local.properties
+--------------------------------------
+ici_rating.endpoint=http://localhost:8444/api/price/v1/ici
+
+Postgres:
+
+usr:postgres
+password:postgres
+5432
+
+select distinct sp.NAME Groupname, sa.NAME rolename from S_AUTHORITY sa
+                                                             join S_PERMISSIONS sperm on sperm.AUTH_ID = sa.id
+                                                             join S_PRINCIPAL sp on sp.id = sperm.PRINCIPAL_ID
+where
+        sp.DTYPE = 'GROUP'
+    and sa.DTYPE='ROLE'
+    and upper(sa.name) like upper('%payment method%')
+
+
+select * from  S_AUTHORITY where upper(name) like upper('%payment method%')
+
+select count(*) from S_ROLE_PRIVILEGES
+					where role_id IN (select id from S_AUTHORITY where name='Admin - LMB Business')
+					and priv_id IN (select id from S_AUTHORITY where name='SecurityAdmin Notes Tab Access')
+INSERT INTO S_ROLE_PRIVILEGES (role_id, priv_id)
+				SELECT role.id, privilege.id
+				FROM S_AUTHORITY role, S_AUTHORITY privilege
+				WHERE role.name ='Quote - LMB Bind' AND privilege.name = 'Quote Create Version'
+
+
+policyAutomatedRenewalAsyncTaskGenerationJob
+renewalProposingJob
+renewalRatingJob
+--------------------------------------------------------------------------------------------
+
+ALTER USER EIS_APP IDENTIFIED BY Test1234
+PW for EIS_APP DB ID reset
+
+----------------------------------------------------------------------
+1.Create branch
+2.Code push
+3.go to the cloud forge console and click on repositry
+4.click on the commits and go to your branch
+5.create a pull request
+6.then go to the build pipeline
+7.go to action and select configure a plan
+8.then build will happen
+9.select the build no and create release
+10.Start deployment in dev
+
+-------------------------------------------------
+User Id:n1530849
+
+bash eis.sh -a db-run
+VDE request:
+--------------
+
+https://lcd.lmig.com/vcac/#
+
+
+https://forge.lmig.com/wiki/display/ESERV/Ice+Dragon+-+Production+Support+Rotation
+
+
+------------------------------------------------
+
+https://localhost:8080/lmb-app/services/api/extensions/integration/claimspayment/tduRequest/461748
+https://dev-eis.np-ah.grm.lmig.com
+https://dev-eis.np-ah.grm.lmig.com/api/extensions/integration/claimspayment/tduRequest/461748
+
+https://dev-eis.np-ah.grm.lmig.com/lmb-app/services/ah-claims-rs/v1/claimImage/getClaimImage?claimNumber=C41408
+Rest SErvice:
+-----------------
+http://localhost:8080/lmb-app/services/ah-claims-rs/v1/claimImage/getClaimImage?claimNumber=C0
+
+http://localhost:8080/lmb-app/services/ah-claims-rs/v1/claimImage/getClaimPaymentListImage?claimNumber=C0
+https://localhost:8080/lmb-app/services/ah-claims-rs/v1/claimImage/fnol
+
+https://forge.lmig.com/wiki/display/ESERV/EIS+local+Workspace+Set+Up
+
+Git Credential Error:
+---------------------------------
+Control Panel\User Accounts\Credential Manager > Manage Windows Credentials and remove all generic credentials involving Git.
+
+https://git.forge.lmig.com/projects/GUAE/repos/ah-parent/browse
+
+C:\Users\n1530849>git config --global user.name sanjoy
+
+C:\Users\n1530849>git config --global user.email Sanjoy.dutta01@libertymutual.com
+
+C:\Users\n1530849>git config --global core.autocrlf input
+
+C:\Users\n1530849>cd codebase
+
+C:\Users\n1530849\codebase>git clone https://git.forge.lmig.com/scm/guae/ah-parent.git
+Cloning into 'ah-parent'...
+remote: Enumerating objects: 4600, done.
+remote: Counting objects: 100% (4600/4600), done.
+remote: Compressing objects: 100% (2136/2136), done.
+remote: Total 376362 (delta 2766), reused 2257 (delta 1763), pack-reused 371762
+Receiving objects: 100% (376362/376362), 956.34 MiB | 1.94 MiB/s, done.
+Resolving deltas: 100% (180201/180201), done.
+
+Updating files: 100% (13117/13117), done.
+fatal: unable to checkout working tree
+warning: Clone succeeded, but checkout failed.
+You can inspect what was checked out with 'git status'
+and retry with 'git restore --source=HEAD :/'
+
+
+-----------------------------------------
+LossEvent.xml
+PrecLossEvent.java
+prec-loss-event-component*beans.xml
+--------------------------------------------------------
+
+Production Support Rotation Task:
+--------------------------------------------------------
+
+https://forge.lmig.com/wiki/display/ESERV/Ice+Dragon+-+Production+Support
+
+------------------------------------------------------------
+
+
+Master Policy App:
+-------------------
+https://ah-gi-master-policy-app-test.np-ah.grm.lmig.com/admin/pages/dashboard.html
+
+
+
+ export PATH=~/.local/bin:$PATH
+
+Intelli Ji Activation Code:
+------------------------------
+http://license-jetbrains.lmig.com
+
+Test URL:
+--------------------------
+
+https://test-eis.np-ah.grm.lmig.com 
+
+Production URL:
+
+https://eis.ah.grm.lmig.com
+
+C403
+C402
+OC407 for Harvey Specter
+
+dev url : https://dev-eis.np-ah.grm.lmig.com/
+test url: https://test-eis.np-ah.grm.lmig.com/
+
+Password:Sanjoy#9903886835
+
+C:\Users\n1530849\codebase>mvn clean install -Ddeploy-db -Dmaven.test.skip=true
+mvn clean install -Dapps=main -Ddeploy-db -DskipTests -DenableDevConsole -T 1C
+
+cd D:\IdeaProjects\ah-parent\applications\lmb-deploy\target\lmb-deploy-dist
+Run liquibase:
+---------------
+ant db.liquibase -DdbUrl=jdbc:oracle:thin:@//localhost:1521/ORCLPDB1 -DdbLogin=EIS_APP -DdbPassword=Test1234
+
+Run Tomcat
+------------------
+startup.bat
+
+Deploy product:
+--------------
+applications/lmb-deploy
+mvn --offline clean package -Ddeploy-db -DskipTests -Pdeploy-group-policy-products,deploy-group-claims-products,deploy-indv-ici-product,deploy-indv-iac-product
+
+ant products -DappUrl="http://localhost:8080/lmb-app" -DwebTestUserName="qa" -DwebTestPassword="qa"
+
+Process Deploy:
+--------------
+ant processes -DappUrl="http://localhost:8080/lmb-app" -DwebTestUserName="qa" -DwebTestPassword="qa"
+
+app Deploy:
+-----------
+
+ant app.prepare -DdbUrl=jdbc:oracle:thin:@//localhost:1521/ORCLPDB1 -DdbLogin=EIS_APP -DdbPassword=Test1234 -DappUrl="http://localhost:8080/lmb-app" -DwebTestUserName="qa" -DwebTestPassword="qa"
+
+EIS Local SetUp:
+--------------------------------
+https://forge.lmig.com/wiki/display/ESERV/EIS+local+Workspace+Set+Up
+
+
+Module build:
+
+After generating jar remove the snapshot of that jar from the below location D:\IdeaProjects\applications\lmb-app\target\lmb-app\WEB-INF\lib and paste it
+
+Running Mock app of Claim:
+--------------------------------------
+
+mvn clean install -Ddeploy-db -Dmaven.test.skip -Dmock-app
+
+Create xml file with the below name:
+
+lmb-mock-app.xml 
+<Context path="/lmb-mock-app" docBase="D:/IdeaProjects/ah-parent/applications/lmb-mock-app/target/lmb-mock-app" reloadable="false">
+ <Manager pathname="" />
+ 
+ <Environment name="appContext/operationalReportsUrl" type="java.lang.String"
+  value="https://reporting-broker/lmb-operational-reports-app" override="false" />
+ <Environment name="/tmp" type="java.lang.String" value="N/A" />
+ 
+</Context>
+​
+
+paste  lmb-mock-app.xml into apache-tomcat-8.5.49\conf\Catalina\localhost
+
+
+http://localhost:8080/lmb-mock-app/
+
+restart tomcat server
+
+
+AWS Console:
+-------------------------
+aws account password:
+ABCdefgh#123456789
+
+http://lmidp.libertymutual.com/idp/startSSO.ping?PartnerSpId=urn%3Aamazon%3Awebservices
+
+lambda ---SNSValidateLambdaFunction---nonprod-snsValidate---Monitoring
+AWS SAML key generation in Local:
+----------------------------------------
+
+Created a Waymo claim in dev and paid some payment and saw that in aws cloud watch log that claim request is present.
+So for new Waymo claim product included in the Claims Report extract for Vortex.
+
+Scrrenshot has been attached here.
+
+https://forge.lmig.com/wiki/display/ESERV/Chase+Invoice+Payment+Integration
+
+Microsoft Windows [Version 10.0.17763.1339]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+D:\>apikeyretriever_windows_amd64
+Please enter the password for a1530849:
+*****************
+Email sent to Email 1 ( sa****@cognizant.com ). Enter the passcode you received.
+Please enter the authentication code that was sent to you:
+716667
+
+Are you using a Cross Account Role? (Y/N) (**Note - Typically this would be No)
+N
+----------------------------------------------------------------
+Your new access key pair has been stored in the AWS credentials file C:\Users\n1530849/.aws/credentials under the saml profile.
+Note that it will expire at Fri Aug 14 05:46:12 2020.
+After this time you may safely rerun this script to refresh your access key pair.
+
+To use this credential call the AWS CLI with the --profile option (e.g. aws --profile saml ec2 describe-instances).
+----------------------------------------------------------------
+
+D:\>
+
+ Please check splunk access for certainly:
+Open https://libertymutual.splunkcloud.com/en-US/app/search/search
+
+Serview Application Logs Search Example
+
+Splunk Search String -  index=grm-ah source=*app-ui-prod* 
+
+Serview Deployment Logs Search Example
+
+Splunk Search String -  index="grm-ah" source="*deploy-prod*"  
+
+lmb-app-ui-dev
+
+index=grm-ah source=*ah-eis-db-admin-prod*
+source=*lmb-app-ui-dev* index="grm-ah" error
+source=*lmb-app-ui-dev* index="grm-ah" sns
+source=*ah-claims-int-service-prod* C3325
+index=*grm-ah* source=*lmb-app*prod*
+
+source=*lmb-app-*-prod* index="grm-ah" *exception*
+
+*5a6cd973-9c9c-412a-bdf1-f5b8a1801e01-IACC* source="ecs-lmb-app-async-prod-52-asynctask-f2dc80b5aadfe5947900/f4052c68f94f"
+
+@Sanjoy Dutta - u will get a token in email/phone
+then search - index="docker_uscm_nonprod" sourcetype="eis-certainly-core-test*"
+see if returns anything or not (edited) 
+----------------------------------------------------------------
+InvoicePaymentApp:
+http://localhost:8080/ah-gi-invoicepayment-app/
+----------------------------------------------------------------
+Git User:::
+sanjoy456
+password:ABC2abc#
+
+<bean id="lmbClaimsCtx" class="com.lmig.ci.lmb.eis.claims.benefits.dto.LMBClaimsContextAccess"/>
+
+    <alias name="lmbClaimsCtx" alias="claimContextAccess"/>
+
+
+n1530849@VDDK35Q-R4I6DSE MINGW64 /d/eis-dev-tools/scripts (develop)
+$ bash eis.sh -a db-run
+** Creating docker network "serview"
+2cfde6bb3896b6d9e22502d9fc1527f5a649a9f5d4017d2502217c96d32bcdee
+===== Docker run: db-run =====
+Searching for container with name: eis-core-db-develop
+Found no containers named eis-core-db-develop
+** Docker pulling fresh eis-core-db-develop container from registry - repo.forge.lmig.com/docker/uscm/eis/eis-oracle-xe-db:master
+master: Pulling from docker/uscm/eis/eis-oracle-xe-db
+4d6a52a950ae: Pulling fs layer
+4d6a52a950ae: Download complete
+4d6a52a950ae: Pull complete
+Digest: sha256:e0d683893c160b0c68d0da969222d71fb2e19885f321b12d86b4934b5f10ff8e
+Status: Downloaded newer image for repo.forge.lmig.com/docker/uscm/eis/eis-oracle-xe-db:master
+repo.forge.lmig.com/docker/uscm/eis/eis-oracle-xe-db:master
+** Docker running fresh eis-core-db-develop container from repo.forge.lmig.com/docker/uscm/eis/eis-oracle-xe-db:master image **
+b70845e0301979fe5e94fe625681c5dbdf4b06ef5c3d36878774ac49ec4319c7
+Execution time: 400 seconds
+
+n1530849@VDDK35Q-R4I6DSE MINGW64 /d/eis-dev-tools/scripts (develop)
+
+n1530849@VDDK35Q-R4I6DSE MINGW64 /d/eis-dev-tools/scripts (develop)
+$ bash eis.sh
+
+---------------------------------------------------------------------------------
+Web Site	https://retrospec.lmig.com
+Team Login	Ice_Dragons@LibertyMutual.com
+Team Password	IceDragonsRetro1
+
+'C10','C4','C5','C2','C7','C0','C1','C8','C6','C3','C9'
+select new com.lmig.ci.lmb.eis.claims.benefits.dto.LMBClaimBenefitCounterDTO (csi.claimStatusCd, csi.claimNumber, csi.lossDt ,refp.party.partyName.firstName, ri.displayValue ,
+sum(dist.netAmount)) from ClaimsSummaryInfo csi left join ClaimsPolicyEntity cp on cp.claimNumber = csi.claimNumber and csi.revisionNo = cp.claimVersion 
+left join cp.riskItems ri left join ClaimsDamageEntity cde on csi.instanceMetadata.instanceName = cde.instanceMetadata.connectedToInstanceName 
+left join ClaimsLossInfoEntity loss on cde.instanceMetadata.instanceName = loss.instanceMetadata.connectedToInstanceName left join loss.refParties refp 
+left join ClaimsPayment cp on cp.claimNumber = csi.claimNumber left join cp.distributions dist WHERE csi.claimNumber in (:claimNumbers)  and
+ csi.currentRevisionInd = true and dist.feature.lossOid = loss.oid 
+and ri.oid = dist.feature.associatedInsurableRiskOid group by csi.claimStatusCd, csi.claimNumber, csi.lossDt, refp.party.partyName.firstName, ri.displayValue
+
+
+
+
+
+package com.lmig.ci.lmb.eis.claims.benefits.dao;
+
+import com.exigen.ipb.base.dao.GenericJPADAO;
+import com.exigen.ipb.base.util.SimpleQueryBuilder;
+import com.exigen.ipb.claims.domain.ClaimsSummaryInfo;
+import com.lmig.ci.lmb.eis.claims.benefits.dto.LMBClaimBenefitCounterDTO;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Component("lmbClaimBenefitCounterDao")
+public class LMBClaimBenefitCounterJpaDao extends GenericJPADAO<ClaimsSummaryInfo, Long> implements LMBClaimBenefitCounterDao {
+
+    private static final String QUERY_TO_FIND_ALL_CLAIMS_BY_POLICY1 = "Select distinct(csi.claimstatuscd), " +
+    "csi.claimnumber, csi.lossdt, cde.DAMAGETYPE, cpp.firstname || ' ' || cpp.lastname, cp.paymentamt " +
+    "from claimssummaryinfo csi " +
+    "left join claimspolicyparty cpp on cpp.policynumber = csi.policynumber " +
+    "left join claimspayment cp on cp.claimnumber = csi.claimnumber " +
+    "left join claimspolicyentity cpe on cpe.policynumber = csi.policynumber " +
+    "left join baseloss bl on bl.claimid = csi.id " +
+    "left join CLAIMSDAMAGEENTITY cde on cde.CLAIMSLOSSINFOENTITYID = bl.id " +
+    "WHERE csi.policynumber = :policyNumber and csi.currentrevisionind = 1 ";
+
+
+
+    /*private static final String QUERY_TO_FIND_ALL_CLAIMS_BY_POLICY = "Select  new " + LMBClaimBenefitCounterDTO.class.getName() + "(distinct(csi.claimstatuscd),csi.claimnumber, " +
+            " csi.lossdt, cde.DAMAGETYPE, cpp.firstname  || ' '  || cpp.lastname, cp.grossAmount)" +
+            " from ClaimsSummaryInfo csi " +
+            " left join ClaimsPolicyPartyEntity cpp on cpp.policyNumber=csi.policyNumber left join ClaimsPayment cp on cp.claimNumber=csi.claimNumber " +
+*/
+   /* private static final String QUERY_TO_FIND_ALL_CLAIMS_BY_POLICY="select new " + LMBClaimBenefitCounterDTO.class.getName() + " (csi.claimStatusCd, csi.claimNumber, csi.lossDt " +
+            ",refp.party.partyName.firstName, ri.displayValue " +
+            ",sum(dist.netAmount)) " +
+            " FROM ClaimsSummaryInfo csi " +
+            " left join ClaimsPolicyEntity cp on cp.claimNumber = csi.claimNumber and csi.revisionNo = cp.claimVersion " +
+            " left join cp.riskItems ri " +
+            " left join ClaimsDamageEntity cde on csi.instanceMetadata.instanceName = cde.instanceMetadata.connectedToInstanceName " +
+            " left join ClaimsLossInfoEntity loss on cde.instanceMetadata.instanceName = loss.instanceMetadata.connectedToInstanceName " +
+            " left join loss.refParties refp " +
+            " left join ClaimsPayment cp on cp.claimNumber = csi.claimNumber " +
+            " left join cp.distributions dist " +
+          //  "WHERE csi.claimNumber = :claimNumber  and csi.currentRevisionInd = true " +
+            " WHERE csi.claimNumber in (:claimNumbers)  and csi.currentRevisionInd = true " +
+            " and dist.feature.lossOid = loss.oid " +
+            " and ri.oid = dist.feature.associatedInsurableRiskOid " +
+            " group by csi.claimStatusCd, csi.claimNumber, csi.lossDt, refp.party.partyName.firstName, ri.displayValue";
+
+    */
+
+
+
+     private static final String QUERY_TO_FIND_ALL_CLAIMS_BY_POLICY="select new " + LMBClaimBenefitCounterDTO.class.getName() + " (csi.claimStatusCd, csi.claimNumber, csi.lossDt " +
+            ",refp.party.partyName.firstName, ri.displayValue " +
+            ",sum(dist.netAmount)) " +
+            " FROM ClaimsSummaryInfo csi " +
+            " left join ClaimsPolicyEntity cp on cp.claimNumber = csi.claimNumber and csi.revisionNo = cp.claimVersion " +
+            " left join cp.riskItems ri " +
+            " left join ClaimsDamageEntity cde on csi.instanceMetadata.instanceName = cde.instanceMetadata.connectedToInstanceName " +
+            " left join ClaimsLossInfoEntity loss on cde.instanceMetadata.instanceName = loss.instanceMetadata.connectedToInstanceName " +
+            " left join loss.refParties refp " +
+            " left join ClaimsPayment cp on cp.claimNumber = csi.claimNumber " +
+            " left join cp.distributions dist " +
+            " WHERE csi.claimNumber in (:claimNumbers)  and csi.currentRevisionInd = true " +
+            " and dist.feature.lossOid = loss.oid " +
+            " and ri.oid = dist.feature.associatedInsurableRiskOid " +
+            " group by csi.claimStatusCd, csi.claimNumber, csi.lossDt, refp.party.partyName.firstName, ri.displayValue";
+
+
+
+    private static final String FIND_CLAIM_NUMBERS_BY_POLICY = "SELECT distinct claimNumber FROM ClaimsSummaryInfo  WHERE policyNumber =:policyNumber";
+
+    public LMBClaimBenefitCounterJpaDao() {
+        super(ClaimsSummaryInfo.class);
+    }
+
+    @Transactional(readOnly = true)
+
+    public List<String> findClaimNumbers(String policyNumber)
+    {
+        Query query = getEntityManager().createQuery(FIND_CLAIM_NUMBERS_BY_POLICY);
+        query.setParameter("policyNumber", policyNumber);
+        return (List<String>) query.getResultList();
+
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<LMBClaimBenefitCounterDTO> findLMBClaimBenefitCounterDTO(String policyNumber) {
+        Assert.notNull("Policy Number cannot be null", policyNumber);
+        List<String> claimNumberList=findClaimNumbers(policyNumber);
+        StringBuffer claimValues = new StringBuffer();
+        for(String claimNumber:claimNumberList)
+        {
+            claimValues.append("'").append(claimNumber).append("'").append(",");
+
+        }
+
+
+
+        Query query = getEntityManager().createQuery(QUERY_TO_FIND_ALL_CLAIMS_BY_POLICY);
+        //query.setParameter("claimNumbers",  claimValues.substring(0,claimValues.length()-1));
+        query.setParameter("claimNumbers",  "C10");
+        return (List<LMBClaimBenefitCounterDTO>) query.getResultList();
+       /* List<Object[]> queryResult = query.getResultList();
+        List<LMBClaimBenefitCounterDTO> lmbClaimBenefitCounterDTOList = new ArrayList<>();
+        if (!queryResult.isEmpty()) {
+
+            for (Object[] lmbClaimBenefitCounter : queryResult) {
+                LMBClaimBenefitCounterDTO lmbClaimBenefitCounterDTO=new LMBClaimBenefitCounterDTO();
+                lmbClaimBenefitCounterDTO.setClaimStatus(String.valueOf(lmbClaimBenefitCounter[0]));
+                lmbClaimBenefitCounterDTO.setClaimNumber(String.valueOf(lmbClaimBenefitCounter[1]));
+                lmbClaimBenefitCounterDTO.setDateOfLoss(String.valueOf(lmbClaimBenefitCounter[2]));
+                lmbClaimBenefitCounterDTO.setBenefit(String.valueOf(lmbClaimBenefitCounter[3]));
+                lmbClaimBenefitCounterDTO.setBenefitParty(String.valueOf(lmbClaimBenefitCounter[4]));
+                lmbClaimBenefitCounterDTO.setPaidAmount(lmbClaimBenefitCounter[5] !=null ? String.valueOf(lmbClaimBenefitCounter[5]):"0.00");
+                lmbClaimBenefitCounterDTOList.add(lmbClaimBenefitCounterDTO);
+
+            }
+            return lmbClaimBenefitCounterDTOList;
+        } else{
+            return null;
+        }
+
+        */
+    }
+}
+
+
+
+,concat(refp.party.partyName.firstName,concat(' ' ,refp.party.partyName.lastName)), ri.displayValue
+,sum(dist.netAmount)
+
+
+<th class="rf-dt-shdr-c" scope="col">Claim Status</th>
+
+
+
+docker ps
+docker ps -a
+docker logs -f  containername
+docker stop eis-core-db-master(to stop docker 
+
+docker rmi eis-core-db-master
+docker rmi containerId
+docker image prune //remove all dangling images
+docker ps -a -to see the status
+docker logs -- follow imagename
+setvars.sh remove branch name
+
+certainly:
+---------------
+DockerHook (loadBatchJob)
+BatchJobConfigurer
+json file e need to configure
+FNOL-first notice of loss
+
+eis.ah.grm.lmig.com
+--------------------------------------------------------
+Running Mock app of Claim:
+--------------------------------------
+
+mvn clean install -Ddeploy-db -Dmaven.test.skip -Dmock-app
+
+Create xml file with the below name:
+
+lmb-mock-app.xml 
+<Context path="/lmb-mock-app" docBase="D:/IdeaProjects/ah-parent/applications/lmb-mock-app/target/lmb-mock-app" reloadable="false">
+ <Manager pathname="" />
+ 
+ <Environment name="appContext/operationalReportsUrl" type="java.lang.String"
+  value="https://reporting-broker/lmb-operational-reports-app" override="false" />
+ <Environment name="/tmp" type="java.lang.String" value="N/A" />
+ 
+</Context>
+​
+
+paste  lmb-mock-app.xml into apache-tomcat-8.5.49\conf\Catalina\localhost
+
+
+http://localhost:8080/lmb-mock-app/
+
+restart tomcat server
+
+
+
+
+
+
+MDJAWED.ANSARI  5:12 PM
+-Dmock-app
+
+For policy creation in certainly:
+-----------------------------------
+Benayak.Saha  9:31 PM
+While creating quote you need to fill below fields to have a successful rating and go further
+Territory - 707030
+Number of Stories - 2
+Construction Type - 1
+In Coverage and premiun screen - Personal Property
+
+Service Code Url:
+-------------------------
+https://git.forge.lmig.com/scm/guae/ah-parent.git
+
+
+Job:
+------
+generalLedgerExtractJob
+
+I0000766886
+
+---------------
+Claim Payment Integration:
+--------------------------
+http://localhost:8080/lmb-app/api/extensions/integration/claimspayment/tduRequest/400039
+
+ClaimTDUPaymentRetrievalServiceImpl.java
+
+http://localhost:8080/lmb-app/api/extensions/integration/claimspayment/tduRequest/400039
+http://localhost:8080/lmb-app/api/extensions/integration/claimspayment/tduRequest/400038
+
+BACC_AV
+400040---VBClaim
+https://ah-claims-int-service-dev.np-ah.grm.lmig.com/ (Dev) 
+https://ah-claims-int-service-test.np-ah.grm.lmig.com/ (Test).
+
+
+LMBClaimsPolicyCachingIndvBenefitsImpl
+<property name="lookupAccessFacade" ref="lookupAccessFacade"/>
+<changeSet author="sanjoy.dutta" id="GUA-15901">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from CLAIMSPOLICYENTITY  where PRODUCTCD='VB_AC'
+            </sqlCheck>
+        </preConditions>
+        <comment>Serview Support: VB Claims - Fix Underwriting Company Mapping</comment>
+        <sql>
+            update CLAIMSPOLICYENTITY set underwritingcompany='Liberty Insurance Underwriters, Inc.' where PRODUCTCD='VB_AC'
+        </sql>
+    </changeSet>
+private void mapServiceLineRecordNode(TduRequest tduRequest, ClaimsPaymentDTO claimsPaymentDto, ClaimsSummaryInfo claimsSummaryInfo, ClaimsPolicyEntity claimsPolicyEntity) {
+        List<ServiceLineRecord> serviceLineRecords = tduRequest.getServiceLineRecords();
+
+        List<ClaimsCalculatorEntity> calculators = claimsPaymentDto.getCalculators();
+        List<PrecClaimsCalculatorReductionEntity> dedOffsetCalReduEntityList = new ArrayList<>();
+
+        List<PrecClaimsCalculatorReductionEntity> dedCalReduEntityList = claimsTDUMappingUtils.getDeductionPrecClaimsCalculatorReductionEntities(calculators);
+        dedOffsetCalReduEntityList.addAll(dedCalReduEntityList);
+
+        List<PrecClaimsCalculatorReductionEntity> offsetReduEntityList = claimsTDUMappingUtils.getOffsetPrecClaimsCalculatorReductionEntities(calculators);
+        dedOffsetCalReduEntityList.addAll(offsetReduEntityList);
+
+        if (PrecClaimsProductCode.CLAIM_TERM_LIFE.name().equals(claimsSummaryInfo.getProductCd())
+                || PrecClaimsProductCode.CLAIM_ACC_HEALTH.name().equals(claimsSummaryInfo.getProductCd()) //Life/AH
+        ) {
+            mapAHTLServiceLineRecordNode(serviceLineRecords, dedOffsetCalReduEntityList, getUnderWritingCompanyName(claimsPolicyEntity));
+        } else if (Objects.equals(PrecClaimsProductCode.CLAIM_DISABILITY.name(), claimsSummaryInfo.getProductCd())) { //Disability
+            mapDIServiceLineRecordNode(serviceLineRecords, dedOffsetCalReduEntityList,claimsPaymentDto, getUnderWritingCompanyName(claimsPolicyEntity));
+        } else if(PrecClaimsProductCode.CLAIM_ACC_BACC.name().equals(claimsSummaryInfo.getProductCd()))
+        {
+            mapAHTLServiceLineRecordNode(serviceLineRecords, dedOffsetCalReduEntityList, "Liberty Insurance Underwriters, Inc.");
+        }
+
+    }
+	
+	Liberty Insurance Underwriters, Inc.
+
+GUA-19279
+PR for GUA-15901 -
+https://git.forge.lmig.com/projects/GUAE/repos/ah-parent/pull-requests/180/overview
+
+ INSERT INTO EIS_APP.VENDORPROFILE (id, NAME, STARTDATE, TAXID, RATINGCD, STATUS, ADDRESS_ADDRESSLINE1, ADDRESS_CITY, ADDRESS_STATEPROVCD,
+ ADDRESS_POSTALCODE, ADDRESS_COUNTRYCD, MAILINGADDRESSSAME, 
+DTYPE, VERSION, CREATEDON, VENDORTYPE, OID) VALUES (SELECT COALESCE(max(ID)+1, 1) FROM VENDORPROFILE, 
+'Prizm Solutions, LLC', 
+sysdate, '35-2555304',
+ 'BRONZE', 
+'ACTIVE', '3280 Peachtree Road, Suite 2625', 'Atlanta', 'GA', '30305', 'US', '1', 
+'VendorProfile', '0', sysdate, 'nonIndividual', RAWTOHEX(SYS_GUID()))]
+
+select sysdate from dual
+
+select * from EIS_APP.VENDORPROFILE
+delete from EIS_APP.VENDORFINANCIALINFO
+delete from EIS_APP.VENDORCONTACT
+delete from EIS_APP.VENDORSELECTEDVALUE
+delete from EIS_APP.VENDORSERVICE
+
+delete from EIS_APP.COMMUNICATIONDETAILS
+delete from EIS_APP.VENDORPROFILE
+select * from EIS_APP.DATABASECHANGELOG where author='sanjoy.dutta' and id like 'GUA-19583%'
+delete from EIS_APP.DATABASECHANGELOG where author='sanjoy.dutta' and id like 'GUA-19583%'
+
+
+--------------------------------------------------------------------------
+ Error: ORA-00936: missing expression
+ [Failed SQL: INSERT INTO EIS_APP.VENDORPROFILE (id, NAME, STARTDATE, TAXID, RATINGCD, STATUS, ADDRESS_ADDRESSLINE1, ADDRESS_CITY, ADDRESS_STATEPROVCD, 
+ADDRESS_POSTALCODE, ADDRESS_COUNTRYCD, MAILINGADDRESSSAME, DTYPE, VERSION, CREATEDON, VENDORTYPE, OID) 
+VALUES (SELECT COALESCE(max(ID)+1, 1) FROM VENDORPROFILE, 
+'Prizm Solutions LLC', sysdate, '35-2555304', 'BRONZE', 'ACTIVE', '3280 Peachtree Road Suite 2625',
+ 'Atlanta', 'GA', '30305', 'US', '1', 'VendorProfile', '0', sysdate, 'nonIndividual', RAWTOHEX(SYS_GUID()))]
+
+DXP SET up:
+------------
+https://forge.lmig.com/wiki/display/ESERV/DXP+SBT+Setup+in+IntelliJ
+
+--------------------------------------------------
+<label id="vendorContactInfoForm:phones_communicationDetails_preferredContactMethodCd-caption" for="vendorContactInfoForm:phones_communicationDetails_preferredContactMethodCd">Contact Preference</label>
+<select id="vendorContactInfoForm:phones_communicationDetails_preferredContactMethodCd" name="vendorContactInfoForm:phones_communicationDetails_preferredContactMethodCd" size="1">	<option value=""></option>	<option value="EMAIL">Email</option>	<option value="PHONE">Phone</option>	<option value="FAX">Fax</option></select>

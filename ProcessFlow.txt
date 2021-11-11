@@ -1,0 +1,52 @@
+﻿InvoicePaymentApp:
+---------------------
+
+1.Billing Invoice Job runs at 10.O clock in serview end and generates invoices based on billing plan and publishing those
+invoices to SQS Queue
+2.Invoice payment app read those SQS messages(Payload) from queue and process its in application level and sends SOAP calls 
+to Chase Payment service and Chase payment do the deduction and how serview knows 
+
+Settelement and exception file both is created by Chase Payment gateway 
+
+
+S3UtilityController.java----present some endpoints
+
+Workflow processing of the ServiewPayment or ServiewReturn will be identical - 
+    - InvoicePayment application polls and fetched payment files
+    - Files are parsed ( Payments Vs Returns ) 
+    - Parsed data is persisted into Invoice Payment DB tables - events are logged as well
+    - Invoice Payment App generate(s) 1 message per Payment or Return details record received
+    - Exchange messages are created and sent to SQS queue for Serview Payment Processing 
+
+Outbound - Serview Invoice Payload:
+
+{
+  "ServiewInvoice" : {
+    "policyNumber":"I0000700560",
+    "invoiceNumber":"100001",
+    "invoiceDueDate":"2021-03-10",
+    "paymentAccountNumber":"10000580833",
+    "paymentAmt":12.85,
+    "productTypeCode":"ICI",
+    "customerNumber":"501113",
+    "applicationId" : "4634-4574-7292-3282-ici"
+   }
+}
+
+http://localhost:8081/ah-gi-invoicepayment-app/
+
+http://localhost:8081/rest/readFromBucketWithName?fileName=422213.2000332793.210302.d.B308.dfr_resp
+
+
+ServletRoutes.java  ------->AwsS3Route.java
+                               |-SettlementFileProcessor.java------processSettlementFile()
+                               |SettlementFileReceivedHandler-----writeFileAndPublishEvent()
+                                                                  processSettlementFile()
+                               |SettlementFileReceivedEventPublisher---publishSettlementFileReceivedEvent()
+                               |InvoicePaymentEventListener
+
+
+InvicePaymentApp to Serview:
+-------------------------------
+PaymentChargePostedEventHandler
+          |-sqsService.sendInboundMessageToSerview(objServiewPayment);

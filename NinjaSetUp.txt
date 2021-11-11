@@ -1,0 +1,12 @@
+but use version 4 more stable
+docker pull scireum/s3-ninja:4
+docker run -p 9444:80 scireum/s3-ninja:4
+A readily packaged docker image is available at scireum/s3-ninja
+Run like docker run -p 9444:9000 scireum/s3-ninja
+Navigate to http://localhost:9444/ui
+Run S3 API-Calls against http://localhost:9444/ (e.g. http://localhost:9444/test-bucket/test-object)
+Provide an volume for /home/sirius/data to persist data accross restarts.
+
+
+
+https://anthony-f-tannous.medium.com/emulating-aws-s3-d56ba9cdc72
