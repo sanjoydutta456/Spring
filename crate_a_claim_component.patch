@@ -1,0 +1,536 @@
+Index: wfl-claims/preconfig-claims-benefits-component/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/MyClaimsComponent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-component/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/MyClaimsComponent.java b/wfl-claims/preconfig-claims-benefits-component/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/MyClaimsComponent.java
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-component/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/MyClaimsComponent.java	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,47 @@
++/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
++ CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
++package com.exigen.ipb.preconfig.claims.benefits.component;
++
++import com.exigen.ipb.claims.component.AbstractClaimsComponent;
++import com.exigen.ipb.components.domain.BusinessRule;
++import com.exigen.ipb.components.domain.ComponentInfo;
++import com.exigen.ipb.components.domain.ViewType;
++import com.exigen.ipb.components.services.RulesMetadataProvider;
++import com.exigen.ipb.preconfig.claims.benefits.component.entity.MyClaimsEntity;
++import org.openl.util.StringUtils;
++
++import java.util.List;
++
++/**
++ * Demo claim component
++ *
++ * @author agerankin
++ */
++public class MyClaimsComponent extends AbstractClaimsComponent implements RulesMetadataProvider {
++
++    private static final long serialVersionUID = 7045438468602750046L;
++
++    private List<BusinessRule> definedRules;
++
++    public MyClaimsComponent(Class<?> classToInstantiate) {
++        super(classToInstantiate);
++    }
++    @Override
++    public Object getViewModel(ComponentInfo runtimeInstance, List<ComponentInfo> dependencies, ViewType viewType) {
++        MyClaimsEntity me = (MyClaimsEntity) runtimeInstance;
++        if(StringUtils.isEmpty(me.getDescription())) {
++            me.setDescription("My favorite component");
++        }
++        return me;
++    }
++    @Override
++    public List<BusinessRule> getDefinedRules() {
++        return definedRules;
++    }
++
++    @Override
++    public void setDefinedRules(List<BusinessRule> rules) {
++        this.definedRules = rules;
++    }
++
++}
+Index: wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_detail.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_detail.xhtml b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_detail.xhtml
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_detail.xhtml	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,38 @@
++<ui:composition template="/claims/components/detail/claimsComponentDetailView.xhtml"
++                xmlns="http://www.w3.org/1999/xhtml"
++                xmlns:h="http://java.sun.com/jsf/html"
++                xmlns:f="http://java.sun.com/jsf/core"
++                xmlns:ui="http://java.sun.com/jsf/facelets"
++                xmlns:ef="http://exigengroup.com/ipb/jsf/facelets"
++                xmlns:eft="http://exigengroup.com/ipb/tags/facelets"
++                xmlns:epf="http://exigengroup.com/ipb/components/jsf/facelets"
++                xmlns:rich="http://richfaces.org/rich"
++                xmlns:a4j="http://richfaces.org/a4j"
++                xmlns:t="http://myfaces.apache.org/tomahawk"
++                xmlns:c="http://java.sun.com/jsp/jstl/core">
++
++    <ui:define name="overrideComponentDetailViewTableDataTable">
++
++        <c:forEach items="#{componentDetailView_instances}" var="instance">
++
++            <ef:richDataTable pageable="true"
++                              rows="#{consolidatedInfo.consolidationCmpRef.tableRowCount}"
++                              id="scolumn_#{id}"
++                              width="100%"  value="#{componentDetailView_instances}"
++                              var="element"
++                              binding="#{defaultDataScrollerResetAction.component}" render="dataScroller_#{id}"
++                              sortMode="single"
++                              filterVar="filterValue">
++
++                <epf:smartColumn addRowTooltips="true" configuration="#{consolidatedInfo.attributeConfiguration}" componentConfiguration="#{consolidatedInfo.componentConfiguration}">
++
++                </epf:smartColumn>
++
++            </ef:richDataTable>
++
++        </c:forEach>
++
++    </ui:define>
++</ui:composition>
++
++
+Index: wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_edit.xhtml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_edit.xhtml b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_edit.xhtml
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_edit.xhtml	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,15 @@
++<ui:composition
++        template="/ipb/components/claims/template/managableSmartView.xhtml"
++        xmlns="http://www.w3.org/1999/xhtml"
++        xmlns:h="http://java.sun.com/jsf/html"
++        xmlns:f="http://java.sun.com/jsf/core"
++        xmlns:ui="http://java.sun.com/jsf/facelets"
++        xmlns:ef="http://exigengroup.com/ipb/jsf/facelets"
++        xmlns:c="http://java.sun.com/jsp/jstl/core"
++        xmlns:a4j="http://richfaces.org/a4j"
++        xmlns:p="http://primefaces.org/ui">
++    <ui:define name="componentEditView_overridenFields">
++
++    </ui:define>
++
++</ui:composition>
+\ No newline at end of file
+Index: wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/my-claims-component_1_0-beans.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/my-claims-component_1_0-beans.xml b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/my-claims-component_1_0-beans.xml
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/my-claims-component_1_0-beans.xml	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<beans xmlns="http://www.springframework.org/schema/beans"
++       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++       xmlns:util="http://www.springframework.org/schema/util"
++       xmlns:p="http://www.springframework.org/schema/p"
++       xsi:schemaLocation="http://www.springframework.org/schema/beans
++                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
++                        http://www.springframework.org/schema/util
++                        http://www.springframework.org/schema/util/spring-util-3.0.xsd">
++
++    <bean id="MyClaimsComponent_1_0" parent="abstractClaimsComponent_1_0"
++          class="com.exigen.ipb.preconfig.claims.benefits.component.MyClaimsComponent">
++        <constructor-arg index="0" value="com.exigen.ipb.preconfig.claims.benefits.component.entity.MyClaimsEntity" type="java.lang.Class" />
++
++        <!-- component properties -->
++        <property name="name" value="MyClaimsComponent" />
++        <property name="version" value="1.0" />
++        <property name="componentType" value="General" />
++        <property name="description" value="My demo claims Component" />
++        <property name="defaultTabLabel" value="My demo claims" />
++
++        <property name="providedDataInterfaces">
++            <set merge="true">
++                <value>com.exigen.ipb.preconfig.claims.benefits.component.entity.MyClaimsEntity</value>
++            </set>
++        </property>
++
++        <property name="views">
++            <map key-type="com.exigen.ipb.components.domain.ViewType" value-type="java.lang.String">
++                <entry key="dataGather" value="/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_edit.xhtml"/>
++                <entry key="consolidatedView" value="/ipb/preconfig/components/claims/benefits/MyClaimsComponent_1_0_detail.xhtml"/>
++            </map>
++        </property>
++
++        <property name="attributesMetadata">
++            <map merge="true">
++                <entry key="description">
++                    <bean parent="pf.attributeMetaTemplate" p:orderNr="20" p:name="description" p:label="My Description"
++                          p:dataType="String" p:pathToEntityField="description" p:displayable="true"  p:displayedInConsolidatedViewInd="true">
++                    </bean>
++                </entry>
++            </map>
++        </property>
++    </bean>
++</beans>
+Index: wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/prec-loss-event-component_1_0-beans.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/prec-loss-event-component_1_0-beans.xml b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/prec-loss-event-component_1_0-beans.xml
+--- a/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/prec-loss-event-component_1_0-beans.xml	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-component/src/main/resources/META-INF/spring/prec-loss-event-component_1_0-beans.xml	(revision 8302+:62b9f490506c+)
+@@ -39,6 +39,12 @@
+                         <property name="className" value="com.exigen.ipb.preconfig.claims.benefits.dto.WflClaimsCoverageReducedAgeDTO"/>
+                     </bean>
+                 </entry>
++
++                <entry key="myClaimsEntity">
++                    <bean parent="pf.connectionInfoTemplate" p:connectionPointType="Single">
++                        <property name="className" value="com.exigen.ipb.preconfig.claims.benefits.component.entity.MyClaimsEntity"/>
++                    </bean>
++                </entry>
+             </map>
+         </property>
+ 
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/main/resources/db/6.2.1/EISDEV-100795-GB-changelog.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/main/resources/db/6.2.1/EISDEV-100795-GB-changelog.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/main/resources/db/6.2.1/EISDEV-100795-GB-changelog.xml
+--- a/wfl-claims/preconfig-claims-benefits-deploy/src/main/resources/db/6.2.1/EISDEV-100795-GB-changelog.xml	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/main/resources/db/6.2.1/EISDEV-100795-GB-changelog.xml	(revision 8302+:62b9f490506c+)
+@@ -15,7 +15,19 @@
+             <column name="reportedUnderlyingCondition" type="java.sql.Types.VARCHAR(255)" />
+         </addColumn>
+     </changeSet>
+-    
++
++    <changeSet author="agerankin" id="my-component">
++        <preConditions onFail="MARK_RAN">
++            <not>
++                <columnExists tableName="ClaimsLossEventEntity" columnName="myEntityId"/>
++            </not>
++        </preConditions>
++        <comment>adding component</comment>
++        <addColumn tableName="ClaimsLossEventEntity">
++            <column name="myEntityId" type="NUMERIC(19,0)"/>
++        </addColumn>
++    </changeSet>
++
+     <changeSet author="jren2" id="20150521-02">
+         <preConditions onFail="MARK_RAN">
+             <not>
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/component-configurations/MyClaimsComponent.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/component-configurations/MyClaimsComponent.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/component-configurations/MyClaimsComponent.xml
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/component-configurations/MyClaimsComponent.xml	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,115 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<componentConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/component-configurations_schema.xsd">
++  <attributeConfiguration>
++    <entry>
++      <key>description</key>
++      <value>
++        <additionalAttribute>false</additionalAttribute>
++        <attributeConstraints>
++          <defaultValue/>
++          <disabledInd>false</disabledInd>
++          <mandatoryInd>false</mandatoryInd>
++          <regExp/>
++        </attributeConstraints>
++        <businessSensitiveInd>false</businessSensitiveInd>
++        <comparable>true</comparable>
++        <dataType>String</dataType>
++        <displayed>true</displayed>
++        <displayedInConsolidatedViewInd>true</displayedInConsolidatedViewInd>
++        <fullQuoteInd>true</fullQuoteInd>
++        <immutable>false</immutable>
++        <isRefreshTrigger>false</isRefreshTrigger>
++        <javaScriptCallbacks/>
++        <label>Description</label>
++        <lookupInfo>
++          <lookupBindings/>
++          <renderAsSuggestionInd>false</renderAsSuggestionInd>
++          <shouldUseValueRange>false</shouldUseValueRange>
++          <suggestionDelayMs>300</suggestionDelayMs>
++          <suggestionDisplayLimit>5</suggestionDisplayLimit>
++          <suggestionFetchLimit>5</suggestionFetchLimit>
++        </lookupInfo>
++        <mapBinding/>
++        <name>description</name>
++        <orderNr>1</orderNr>
++        <pathToEntityField>description</pathToEntityField>
++        <ratingFactorInd>false</ratingFactorInd>
++        <renderAsBooleanCheckBoxInd>false</renderAsBooleanCheckBoxInd>
++        <renderTimeInd>false</renderTimeInd>
++        <serializable>true</serializable>
++      </value>
++    </entry>
++  </attributeConfiguration>
++  <componentApplicabilityRule/>
++  <componentLabel>My Claims demo component</componentLabel>
++  <componentName>MyClaimsComponent</componentName>
++  <componentVersion>1.0</componentVersion>
++  <connectedToPort>myClaimsEntity</connectedToPort>
++  <connectionReferenceName>LossEvent</connectionReferenceName>
++  <excludeFromPayload>false</excludeFromPayload>
++  <extensionConfiguration/>
++  <hideConfirmationPopupInd>false</hideConfirmationPopupInd>
++  <hideTableLabelInd>false</hideTableLabelInd>
++  <javaScriptCallbacks/>
++  <maxInstances>1</maxInstances>
++  <minInstances>1</minInstances>
++  <optionalQuestion/>
++  <optionalQuestionRequired>false</optionalQuestionRequired>
++  <presentationConfiguration>
++    <buttonsHorizontalPosition>Center</buttonsHorizontalPosition>
++    <buttonsVerticalPosition>Bottom</buttonsVerticalPosition>
++    <displayEmptyList>false</displayEmptyList>
++    <displayHeaderInd>true</displayHeaderInd>
++    <hiddenAddButtonInd>false</hiddenAddButtonInd>
++    <hiddenRemoveButtonInd>false</hiddenRemoveButtonInd>
++    <hideHeaderNoInstance>false</hideHeaderNoInstance>
++    <hideInstanceRemoveInd>false</hideInstanceRemoveInd>
++    <hideRowNumbers>false</hideRowNumbers>
++    <listVerticalPosition>Bottom</listVerticalPosition>
++    <neverDisplayList>false</neverDisplayList>
++  </presentationConfiguration>
++  <propertyConfiguration>
++    <entry>
++      <key>attributeGroups</key>
++      <value>
++        <name>attributeGroups</name>
++      </value>
++    </entry>
++    <entry>
++      <key>consolidatedTableRows</key>
++      <value>
++        <name>consolidatedTableRows</name>
++        <value>10</value>
++      </value>
++    </entry>
++    <entry>
++      <key>layoutColumnSize</key>
++      <value>
++        <name>layoutColumnSize</name>
++        <value>2</value>
++      </value>
++    </entry>
++    <entry>
++      <key>layoutErrorTooltip</key>
++      <value>
++        <name>layoutErrorTooltip</name>
++        <value>false</value>
++      </value>
++    </entry>
++    <entry>
++      <key>minimalTextLengthForTooltip</key>
++      <value>
++        <name>minimalTextLengthForTooltip</name>
++        <value>50</value>
++      </value>
++    </entry>
++  </propertyConfiguration>
++  <referenceName>MyClaimsComponent</referenceName>
++  <renderInstanceListMultiColumn>false</renderInstanceListMultiColumn>
++  <stateHolderReference>
++    <referenceKey/>
++  </stateHolderReference>
++  <validateRulesBeforeInstanceRemove>false</validateRulesBeforeInstanceRemove>
++  <validateRulesOnAdd>false</validateRulesOnAdd>
++  <validateRulesOnChange>false</validateRulesOnChange>
++</componentConfiguration>
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/base-rules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/base-rules.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/base-rules.xml
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/base-rules.xml	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<businessRules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/base-rules_schema.xsd"/>
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/ext-rules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/ext-rules.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/ext-rules.xml
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/Rules/ruleSet_v1/MyClaimsComponent/ext-rules.xml	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<businessRuleExtensionsWraper xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/ext-rules_schema.xsd"/>
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/claimUpdate_TREE.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/claimUpdate_TREE.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/claimUpdate_TREE.xml
+--- a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/claimUpdate_TREE.xml	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/claimUpdate_TREE.xml	(revision 8302+:62b9f490506c+)
+@@ -202,6 +202,9 @@
+           <componentReferenceName>LossEvent</componentReferenceName>
+         </assignedItems>
+         <assignedItems>
++          <componentReferenceName>MyClaimsComponent</componentReferenceName>
++        </assignedItems>
++        <assignedItems>
+           <componentReferenceName>PrecClaimsICDCode</componentReferenceName>
+         </assignedItems>
+         <javaScriptCallbacks/>
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/default_TREE.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/default_TREE.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/default_TREE.xml
+--- a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/default_TREE.xml	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/workspace-configurations/default_TREE.xml	(revision 8302+:62b9f490506c+)
+@@ -205,6 +205,9 @@
+           <componentReferenceName>LossEvent</componentReferenceName>
+         </assignedItems>
+         <assignedItems>
++          <componentReferenceName>MyClaimsComponent</componentReferenceName>
++        </assignedItems>
++        <assignedItems>
+           <componentReferenceName>PrecClaimsICDCode</componentReferenceName>
+         </assignedItems>
+         <javaScriptCallbacks/>
+Index: wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/detail-view-configuration.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/detail-view-configuration.xml b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/detail-view-configuration.xml
+--- a/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/detail-view-configuration.xml	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-deploy/src/test/resources/claim-ah/CLAIM_ACC_HEALTH_1_claimsSummaryInfo_claimsSummaryInfo/detail-view-configuration.xml	(revision 8302+:62b9f490506c+)
+@@ -48,6 +48,17 @@
+       <tableRowCount>10</tableRowCount>
+     </tabItems>
+     <tabItems>
++      <componentReferenceName>MyClaimsComponent</componentReferenceName>
++      <displayedAttributes>
++        <attributeName>description</attributeName>
++      </displayedAttributes>
++      <showControls>true</showControls>
++      <showFilter>false</showFilter>
++      <showLabel>true</showLabel>
++      <showSort>false</showSort>
++      <tableRowCount>10</tableRowCount>
++    </tabItems>
++    <tabItems>
+       <componentReferenceName>PrecClaimsPolicySponsor</componentReferenceName>
+       <displayedAttributes>
+         <attributeName>otherName</attributeName>
+Index: wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/MyClaimsEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/MyClaimsEntity.java b/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/MyClaimsEntity.java
+new file mode 100644
+--- /dev/null	(revision 8302+:62b9f490506c+)
++++ b/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/MyClaimsEntity.java	(revision 8302+:62b9f490506c+)
+@@ -0,0 +1,32 @@
++/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
++ CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
++package com.exigen.ipb.preconfig.claims.benefits.component.entity;
++
++import javax.persistence.DiscriminatorColumn;
++import javax.persistence.Entity;
++
++/**
++ * dto for demo component
++ * @author whu
++ * @since 2016SP5
++ */
++@Entity
++@DiscriminatorColumn
++public class MyClaimsEntity extends PrecClaimsICDCodeEntity {
++
++    private static final long serialVersionUID = 7697541211327659769L;
++    public static final String FK_NAME_ME = "myEntityId";
++    /**
++     * Description field
++     */
++//    private String description;
++
++    public String getDescription() {
++        return getIcdCodeDescription();
++    }
++
++    public void setDescription(String description) {
++        setIcdCodeDescription(description);
++    }
++
++}
+Index: wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/PrecClaimsLossEventEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/PrecClaimsLossEventEntity.java b/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/PrecClaimsLossEventEntity.java
+--- a/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/PrecClaimsLossEventEntity.java	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-domain/src/main/java/com/exigen/ipb/preconfig/claims/benefits/component/entity/PrecClaimsLossEventEntity.java	(revision 8302+:62b9f490506c+)
+@@ -120,6 +120,22 @@
+     @Transient
+     transient private WflClaimsCoverageReducedAgeDTO wflClaimsCoverageReducedAgeDTO;
+ 
++    /**
++     * Connection port for MyClaimComponent association.
++     */
++    @OneToOne(cascade = CascadeType.ALL)
++    @JoinColumn(name = MyClaimsEntity.FK_NAME_ME)
++    @IndexColumn(name = "seqIdx")
++    private MyClaimsEntity myClaimsEntity;
++
++    public MyClaimsEntity getMyClaimsEntity() {
++        return myClaimsEntity;
++    }
++
++    public void setMyClaimsEntity(MyClaimsEntity myClaimsEntity) {
++        this.myClaimsEntity = myClaimsEntity;
++    }
++
+     public WflClaimsCoverageReducedAgeDTO getWflClaimsCoverageReducedAgeDTO() {
+         return wflClaimsCoverageReducedAgeDTO;
+     }
+Index: wfl-claims/preconfig-claims-benefits-domain/src/main/resources/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/wfl-claims/preconfig-claims-benefits-domain/src/main/resources/META-INF/persistence.xml b/wfl-claims/preconfig-claims-benefits-domain/src/main/resources/META-INF/persistence.xml
+--- a/wfl-claims/preconfig-claims-benefits-domain/src/main/resources/META-INF/persistence.xml	(revision 8302:62b9f490506c2c803e5b9f6f11bef7985f3f6557)
++++ b/wfl-claims/preconfig-claims-benefits-domain/src/main/resources/META-INF/persistence.xml	(revision 8302+:62b9f490506c+)
+@@ -31,6 +31,7 @@
+         <class>com.exigen.ipb.preconfig.claims.benefits.domain.PrecClaimsPaymentDistribution</class>
+         <class>com.exigen.ipb.preconfig.claims.benefits.component.entity.calculator.PrecClaimsCalculatorAdditionEntity</class>
+         <class>com.exigen.ipb.preconfig.claims.benefits.component.entity.PrecClaimsICDCodeEntity</class>
++        <class>com.exigen.ipb.preconfig.claims.benefits.component.entity.MyClaimsEntity</class>
+         <class>com.exigen.ipb.preconfig.claims.benefits.component.entity.PrecClaimsPolicyRecurrenceBenefitEntity</class>
+         <class>com.exigen.ipb.preconfig.claims.benefits.component.entity.calculator.PrecClaimsPaymentCalculatorEntity</class>
+         <class>com.exigen.ipb.preconfig.claims.benefits.component.entity.PrecClaimsLossEventEntity</class>

@@ -1,0 +1,507 @@
+Guideware:
+----------
+https://searchsoftwarequality.techtarget.com/video/Follow-this-step-by-step-Bamboo-CI-CD-tutorial
+
+https://docs.guidewire.com/cloud/cc/202011/cloudapibf/cloudAPI/topics/S01_Consuming/01_overview/c_requests-and-responses.html#xd_992ee04c4cdcb76e-2c1763a-1718b14a567--7c57
+https://www.javaguides.net/
+https://www.javatpoint.com/spring-boot-annotations
+https://javatechonline.com/stream-api-in-java-8/
+
+Technically sound, has good knowledge of concepts. Can be groomed further on Hibernate and Webservice.
+Lacks basic understanding. Not prepared well. Recent long gap in technical work.
+Lacks of basic understanding. 
+The candidate has no proper technical exposure/technical knowledge.
+
+With his in-depth insight on coding structures and backend architectures, I can confidently say he is well on the path to improving his theoretical expertise.
+Considering his goals and our requirements do not fit well, I am not recommending that we hire him for this position.
+
+Technically sound but needs to do more coding practice , has good knowledge of concepts. Can be groomed further on new technologies.
+Considering her goals and our requirements fit well, So I am recommending that we can hire her for this position.
+She has good problem solving skills.She has skill of team build and can have the interests to take initiative and grasp new things quickly.
+But she has to improve on communication skills.
+
+Technically sound but needs to do more coding practice , has good knowledge of concepts. Can be groomed further on new technologies.
+Considering her goals and our requirements fit well, So I am recommending that we can hire her for this position.
+She has good problem solving skills.She has skill of team build and can have the interests to take initiative and grasp new things quickly.
+But she has to improve on communication skills.
+
+Technically sound, has good knowledge of concepts but did not work on react mainly works on angular.I can confidently say she is well on the path to improving her theoretical 
+expertise.Can be groomed further on new technologies.She has skill of team build and can have the interests to take initiative and grasp new things quickly.
+
+With his in-depth insight on coding structures and backend architectures, I can confidently say he is well on the path to improving his theoretical expertise.
+Can be groomed further on new technologies.Considering his goals and our requirements fit well, So I am recommending that we can hire him for this position.
+He has good problem solving skills.He has skill of team build and can have the interests to take initiative and grasp new things quickly.
+
+Technically ok but needs to do more coding practice  and also theoritical.Can be groomed further on new thechnologies .
+Considering his goals and our requirements fit well, So I am recommending that we can hire him for this position.
+He has good problem solving skills.He has skill of team build and can have the interests to take initiative and grasp new things quickly.
+But He has to improve on communication skills.
+
+He is having good knowledge in  Java ,he has good knowledge in problem solving  also
+but did not work much in Microservice and database concept is also not cleared.So Not able to proceed.
+
+JWT-https://www.youtube.com/watch?v=lA18U8dGKF8
+https://www.youtube.com/watch?v=BnknNTN8icw
+
+What are the two arguments that async.queue takes?
+
+The two arguments that async.queue takes
+Lacks of basic understanding and Needs some improvement on coding and theoretical concept is also not cleared properly 
+
+Task function
+Concurrency value
+16) What is an event loop in Node.js?
+
+To process and handle external events and to convert them into callback invocations an event loop is used. 
+So, at I/O calls, node.js can switch from one request to another.
+
+What is the difference between Node.js vs Ajax?
+
+The difference between Node.js and Ajax is that, Ajax (short for Asynchronous Javascript and XML) is a client side technology, often used for updating the contents of the page without refreshing it. While,Node.js is Server Side Javascript, 
+used for developing server software. Node.js does not execute in the browser but by the server.
+
+Join():
+join() method is generally used to pause the execution of a current thread unless and until the specified thread on which join is called is dead or completed
+
+GC:
+Mark and Sweep. The process includes three phases i.e., marking, deletion, and compaction/copying. In simple words, 
+a garbage collector finds objects that are no longer required by the program and then delete or remove these unused objects to free up the memory space
+
+
+It only locks a certain portion of the map while doing iteration to provide thread safety 
+so that other readers can still have access to the map without waiting for iteration to complete.  
+
+It just locks the entire map while doing iteration. 
+
+Q38. How do you Configure Log4j for logging?
+Since Spring Boot supports Log4j2 for logging a configuration, you have to exclude Logback and include
+ Log4j2 for logging. This can be only done if you are using the starters project.
+
+Do you think, you can use jetty instead of tomcat in spring-boot-starter-web?
+Yes, we can use jetty instead of tomcat in spring-boot-starter-web, by removing the existing dependency and including the following:
+
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+
+23) How to add custom JS code in Spring Boot?
+/src/main/resources/static is the suggested folder for static content in Spring boot.
+
+You can create a JS file for sending an alert by creating a custom file named custom.js in /src/main/resources/static/js/ directory with below code
+
+alert("I'm active");
+
+
+Java8:
+-----------
+Given a Sorted Array of integers containing duplicates. Find the frequency of every unique element present in the array.
+Frequency is defined as the number of occurrence of any element in the array.
+O(n*log(n)).
+For example :
+
+3 How to find duplicate elements in a given integers list in java using Stream functions?
+
+import java.util.*;
+import java.util.stream.*;
+public class JavaHungry {
+    public static void main(String args[]) {
+            List<Integer> myList = Arrays.asList(10,15,8,49,25,98,98,32,15);
+            Set<Integer> set = new HashSet();
+            myList.stream()
+                  .filter(n -> !set.add(n))
+                  .forEach(System.out::println);
+    }
+}
+
+--------------------------------
+ Given a list of integers, find the maximum value element present in it using Stream functions?
+
+import java.util.*;
+import java.util.stream.*;
+public class JavaHungry {
+    public static void main(String args[]) {
+            List<Integer> myList = Arrays.asList(10,15,8,49,25,98,98,32,15);
+            int max =  myList.stream()
+                             .max(Integer::compare)
+                             .get();
+            System.out.println(max);                    
+    }
+}
+
+Write a program to print 5 random numbers using forEach in Java 8?
+
+Answer: The below program generates 5 random numbers with the help of forEach in Java 8. You can set the limit variable to any number depending on how many random numbers you want to generate.
+
+import java.util.Random;
+ 
+class Java8 {
+    public static void main(String[] args) {
+ 
+        Random random = new Random();
+        random.ints().limit(5).forEach(System.out::println);
+        /* limit is set to 5 which means only 5 numbers will be printed
+        with the help of terminal operation forEach
+        */
+ 
+    }
+}
+
+Write a Java 8 program to get the sum of all numbers present in a list?
+
+Answer: In this program, we have used ArrayList to store the elements. Then, with the help of the sum() method, we have calculated the sum of all the elements present in the ArrayList. Then it is converted to Stream and added each element with the help of mapToInt() and sum() methods.
+
+import java.util.*;
+ 
+class Java8 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+ 
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
+        list.add(50);
+        // Added the numbers into Arraylist
+        System.out.println(sum(list));
+    }
+ 
+    public static int sum(ArrayList<Integer> list) {
+        return list.stream().mapToInt(i -> i).sum();
+        // Found the total using sum() method after 
+        // converting it into Stream
+    }
+}
+
+Write a Java 8 program to remove the duplicate elements from the list?
+
+Answer: In this program, we have stored the elements into an array and converted them into a list. Thereafter, we have used stream and collected it to “Set” with the help of the “Collectors.toSet()” method.
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+ 
+public class Java8 {
+    public static void main(String[] args) {
+        Integer[] arr1 = new Integer[] { 1, 9, 8, 7, 7, 8, 9 };
+        List<Integer> listdup = Arrays.asList(arr1);
+         
+        // Converted the Array of type Integer into List
+ 
+        Set<Integer> setNoDups = listdup.stream().collect(Collectors.toSet());
+         
+        // Converted the List into Stream and collected it to “Set”
+        // Set won't allow any duplicates
+         
+        setNoDups.forEach((i) -> System.out.print(" " + i));
+         
+         
+    }
+}
+
+What are the different ways to configure a class as Spring Bean?
+
+There are multiple ways to configure Spring Bean: XML configuration, Java based configuration and annotation based configuration.
+
+XML configuration
+<bean id="myBean" class="com.toptal.spring.MyBean"/>
+Java Based Configuration
+Any object can be put into Spring Context and be reused later as a usual bean.
+
+ConfigurableApplicationContext context;
+context.getBeanFactory().registerSingleton(name, obj);
+Annotation Based Configuration
+A Spring Bean can be configured with the @Bean annotation, which is used together with @Configuration classes.
+
+@Configuration
+public class MyConfiguration {
+
+	@Bean
+	public MyService getService(){
+		return new MyService();
+	}
+}
+The annotations @Component, @Service, @Repository and @Controller can also be used with classes to configure them as Spring Beans. In this case, the base package location has to be provided to scan for these classes, like so:
+
+<context:component-scan base-package="com.toptal.spring" />
+What is Bean wiring? How does autowiring work?
+
+View answer
+
+Which dependency injection method is better: Constructor-based or setter-based?
+You can use both Constructor-based and Setter-based Dependency Injection. The best solution is using constructor arguments for mandatory dependencies and setters
+ for optional dependencies.
+
+How do you load and inject properties into a Spring Bean?
+Let’s say we have a custom.properties file that defines a database connection timeout property called connection.timeout. To load this property into a Spring context, we need to define a propertyConfigurer bean:
+
+<bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="location" value="custom.properties" />
+</bean>
+After that we can use Spring Expression Language to inject properties into other beans:
+
+<bean class="com.toptal.spring.ConnectionFactory">
+    <property name="timeout" value="${connection.timeout}"/>
+</bean>
+The same is available in the annotation based configuration, like so:
+
+@Value("${connection.timeout}") 
+private int timeout;
+
+Service Registry:
+ Apache ZooKeeper or Netflix Eureka 
+
+The circuit breaker is fault-tolerance technique that monitors and detects when a service is behaving abnormally
+
+What is Circuit Breaker?
+If the actual method of a microservice is continuously throwing exception, then stop executing actual method and redirect each request to a fallback method,
+ such concept is called Circuit Breaker. In this situation, we configure a dummy method that will execute and give a response back to the client such as 
+‘Service Not Working’, 
+‘Unable to Process request at this time’, ‘try after some time’…etc. We call such a dummy method as Fallback method. There are two types of circuit : 
+open circuit & closed circuit. In Open Circuit, client request directly moves to Fallback method. But In closed Circuit, client request moves to 
+the actual service method only.
+
+Spring Cloud Hystrix
+In order to implement Circuit Breaker mechanism, we use Spring cloud Hystrix. We add the @EnableHystrix annotation on our main application class to make our
+ Spring Boot application act as a Circuit Breaker. In addition, @HystrixCommand(fallbackMethod = “DUMMY METHOD NAME”) at RestController method level.
+
+API Gateway:
+The API Gateway is responsible for request routing, composition, and protocol translation. All requests from clients first go through the API Gateway. It then routes requests to the appropriate microservice. 
+The API Gateway will often handle a request by invoking multiple microservices and aggregating the results.
+
+AWS:
+  AWS is a cloud service provider that enables on demand services like compute,storage,networking etc which can be accessed through the internet.
+
+Q #29) What is the use of @Qualifier annotation?
+
+Answer: It is mainly used when the developer is bound to create many beans of the same type and
+ want to wire only one of them with the property, in this scenario @Qualifier with @Autowired is used for removing confusion and specifying
+ the exact bean to be wired.
+
+Q #30) How is an event handled in Spring?
+
+Answer: Event handling is achieved through the ApplicationEvent class and ApplicationListner interface.
+
+When the bean implements ApplicationListner then ApplicationEvent gets generated to ApplicationContext and notifies that the bean is generated.
+
+Q #31) What are the examples of standard Spring Events?
+
+Answer: There are many standard Spring events serving respective purpose and few among them are ContextStartedEvent, ContextRefreshedEvent, 
+ContextStoppedEvent, ContextClosedEvent, RequestHandledEvent etc.
+
+Q #11) What is Jenkins Pipeline? What is a CI CD pipeline?
+
+Answer: The pipeline can be defined as the suite of plugins supporting the implementation and integration of continuous delivery pipelines in Jenkins.
+
+Continuous integration or continuous delivery pipeline consists of build, deploy, test, release pipeline. The pipeline feature saves a lot of time and error in maintaining the builds. Basically,
+ a pipeline is a group of build jobs that are chained and integrated in sequence.
+
+---------------------------------------------
+ConcurrentHashMap and Hashtable:
+
+ConcurrentHashMap:
+It only locks a certain portion of the map while doing iteration to provide thread safety 
+so that other readers can still have access to the map without waiting for iteration to complete.  
+
+Hashtable:
+
+It just locks the entire map while doing iteration. 
+
+A HashTable doesn't allow null keys or values; a HashMap does.
+A HashTable is synchronized to prevent multiple threads from accessing it at once; a HashMap isn't.
+
+Hash collisions:
+if two keys hash to the same index in our array
+HashMap()
+Constructs an empty HashMap with the default initial capacity (16) and the default load factor (0.75).
+
+PERFORMANCE OF HASHMAP
+The performance of the hashmap is based upon two significant factors :
+
+Initial Capacity
+Load Factor
+Initial Capacity: The initial number of buckets a hashmap has when its instance is created. Its default value is 16. That is, initially,
+ the hash map can store 16 key-value elements.
+
+Load Factor: It is a measure of how much percentage the hashmap is allowed to fill before its capacity increases. 
+The default load factor value is 0.75, ranging between 0 to 1 usually.
+
+Some other terms related to performance are :
+
+Threshold: It is the product of the load factor and the capacity of the hashmap. Default threshold value is 0.75*16= 12. When 12 elements are filled in 
+the hashmap, we need to stop inserting more elements into it. 
+
+Rehashing will be done, which will double the capacity of the hashmap.
+
+Rehashing: It is a way of doubling the capacity when the threshold value is reached. When the threshold value is crossed, the rehashing is done so that the bucket now has twice the capacity and the operation takes less time.
+Collisions 
+
+Collisions occur when distinct keys produce the same hashcode value, and the element is already present at that index value. To avoid or reduce collisions, a good hash function should be used, ensuring the best distribution of values throughout the hashmap. When a collision occurs,
+ we use the chaining technique, as shown in the 2nd example above, to distribute the values.
+
+Threshold: It is the product of the load factor and the capacity of the hashmap. Default threshold value is 0.75*16= 12. When 12 elements are filled in the hashmap, we need to stop inserting more elements into it. 
+Rehashing will be done, which will double the capacity of the hashmap.
+
+Rehashing: It is a way of doubling the capacity when the threshold value is reached. When the threshold value is crossed, the rehashing is done so that the bucket now has twice the capacity and the operation takes less time.
+
+The changes that have been done in JAVA 8 : 
+Some hashmap performance improvement changes have been done in JAVA 8 to handle the hash collisions. Before Java 8, 
+the hashmap performance was low in the case of hash collisions which had an impact on the complexity. Due to collisions, 
+both the keys and values were placed in a node, and in the worst case, the complexity was O(n) due to link list traversal. Changes are as follows:
+
+Initially, the hash map will store the entries in a singly linked list, but when the threshold value is reached, the self-balancing 
+BST trees will be used instead of a linked list. The benefit of using BST is that we get the worst-case complexity is O(log n).
+
+Difference between ConcurrentHashMap and Synchronized HashMap:
+
+                  ConcurrentHashMap                                                                Synchronized HashMap
+
+ConcurrentHashMap is a class that implements the ConcurrentMap and serializable interface.	We can synchronize the HashMap by using the synchronizedMap() method of java.util.Collections class.
+It locks some portion of the map.	It locks the whole map.
+ConcurrentHashMap allows performing concurrent read and write operation. Hence, performance is relatively better than the Synchronized Map.	In Synchronized HashMap, multiple threads can not access the map concurrently. Hence, the performance is relatively less than the ConcurrentHashMap.
+ConcuurentHashMap doesn’t allow inserting null as a key or value.	Synchronized HashMap allows inserting null as a key.
+ConccurentHashMap doesn’t throw ConcurrentModificationException.	Synchronized HashMap throw ConcurrentModificationException.
+Attention reader! Don’t stop learning now. Get hold of all the important Java Foundation and Collections concepts with the Fundamentals of Java and Java Collections Course at a student-friendly price and become industry ready. To complete your preparation from learning a language to DS Algo and many more,  please refer Complete Interview Preparation Course.
+
+
+Explain the process to integrate Git with Jenkins?
+Answer: Here are the steps to integrate Git with Jenkins:
+
+Create a new Jenkins job and open the Jenkins dashboard.
+Enter the project name (in the item name) and select the job type. Click on OK.
+Enter the project information. Go to the ‘Source Code Management’ tab. If the Git plugin is already installed in Jenkins, you will see the option ‘Git’.
+If you cannot see it, then you should reinstall the plugins – GitHub plugin, GitHub Branch Source plugin, GitHub API plugin, Gitclient plugin etc.
+After installing the plugins, restart Jenkins to reflect the changes.
+To pull the code from GitHub, enter the repository URL. If you do not have Git installed in your machine, install it. To check if Git is installed, type Git in cmd (command prompt) and you should see various options like usage, version, help etc.
+
+Question: Explain the process of creating the Multibranch Pipeline in Jenkins?
+Answer: The process is as follows:
+
+Open the Jenkins dashboard and create a new item by clicking on ‘new item’ from the top left menu.
+Enter your project name and from the options shown, select ‘Multibranch pipeline’ and click on OK.
+Then you should select the repository location, branch source (GitHub/Bitbucket), and add the credentials of the branch source.
+Save the project.
+Jenkins automatically creates new Multibranch Pipelines for repositories that have branches and pulls requests containing Jenkins files.
+To connect to the GitHub repo, we need the HookURL. Get this URL from the repository settings.
+Add this HookURL to the Webhooks section.
+Once the jobs are created, build is automatically triggered by Jenkins.
+
+
+This should be the correct way to implement Singleton pattern using double checked locking principle:
+
+class MySinglton { 
+
+    private static volatile MySinglton instance;
+    
+    private MySinglton() {}
+
+    public static MySinglton getInstance() {
+        if (instance == null) {
+            synchronized (MySinglton.class) {
+                if (instance == null) {
+                    instance = new MySinglton();
+                }
+            }
+        }
+        return instance;
+    }
+
+}
+
+-----------------------------------------
+How does JWT work with Spring Security?
+-----------------------------------------
+
+JWT is a token based authentication
+
+We expose a public POST API for the authentication, and upon passing the correct credentials, it will generate a JWT. 
+If a user tries to access the protected API, it will allow access only if a request has a valid JWT. Validation will 
+happen in the filter registered in the Spring Security filter chain.
+
+------------------------------------------
+What is Docker:
+
+Docker generally provides a container environment, in which any application can be hosted. 
+
+What is Microservice Architecture:
+
+Microservices architecture is a method of developing a large-scale application as a collection of small autonomous services developed for a business domain. 
+
+Write main components of Microservices.
+Some of the main components of microservices include: 
+
+Containers, Clustering, and Orchestration 
+IaC [Infrastructure as Code Conception] 
+Cloud Infrastructure 
+API Gateway 
+Enterprise Service Bus 
+Service Delivery
+
+
+What are the challenges that one has to face while using Microservices?
+The challenges that one has to face while using microservices can be both functional and technical as given below:
+ 
+complex arcitecture
+each microservice is responsible for its own data persistence
+
+
+Deployment of microservice in cloud:
+--------------------------------------
+https://www.youtube.com/watch?v=BnknNTN8icw
+Elastic Beanstalk
+AWS Lambda
+EC2
+AWS EKS
+
+
+independent deployment
+independent code change
+faulttolerance
+scale app
+Technology independent
+
+Hystrix dashboard able ti idenfiy which services are down;
+Spring cloud cnfig server
+
+Load balancer(Ribbon)-to navigate the traffic 
+Log aggregation ----aggregate the application log
+ZippKin and sleuth==Distributed log tarcing and  management
+
+Exception tracking--report all exceptions to a centralized exception tracking 
+service that aggregates and track exceptions and notifies developers
+
+Health check API:
+monitoring service
+Functional Challenges:
+
+Require heavy infrastructure setup. 
+Need Heavy investment. 
+Require excessive planning to handle or manage operations overhead.
+Technical Challenges:
+
+Microservices are always interdependent. Therefore, they must communicate with each other.   
+It is a heavily involved model because it is a distributed system.   
+You need to be prepared for operations overhead if you are using Microservice architecture.   
+To support heterogeneously distributed microservices, you need skilled professionals.    
+It is difficult to automate because of the number of smaller components. For that reason, each component must be built, deployed, and monitored separately.   
+It is difficult to manage configurations across different environments for all components. 
+Challenges associated with deployment, debugging, and testing. 
+15. Explain PACT in microservices.
+
+Setting active profile
+When you run spring boot application, you need to set active profile. There are multiple ways to set active profile.
+
+By using -Dspring.profiles.active=dev in VM Arguments
+By using spring.profiles.active=dev in application.properties

@@ -1,0 +1,178 @@
+﻿https://university.eisgroup.com/learn/register
+https://jira.eisgroup.com
+https://blueprint.eisgroup.com/
+http://aws0aflrb01.aws0.afl.cloud/reviewboard
+https://umanager.exigeninsurance.com/
+
+
+
+https://wiki.eisgroup.com/display/Aflac/Setup+development+environment
+
+
+-U for online
+-o for offine build
+mvn install -Dmaven.test.skip=true -e -U
+
+mvn clean
+
+hg pull -r default --config=http_proxy.host=http://10.97.231.29:80
+
+hg update -C
+
+import patch
+
+hg outgoing -v --config=http_proxy.host=http://10.97.231.29:80
+
+hg push  --config=http_proxy.host=http://10.97.231.29:80
+
+https://cognizant20dm.cognizant.com/
+
+
+D:\AIG\Chartis2Cognizant>hg heads .
+D:\AIG\Chartis2Cognizant>hg merge --config=http_proxy.host=http://10.97.231.29:80
+
+java -Xmx2024m -XX:MaxPermSize=1012m -jar premier-dist.jar lb processes products
+
+#####################################################
+
+
+####################################################
+
+
+
+1.Patch Import:
+
+    Go to HG workbench------>Go to Repository---->select Import 
+
+Code Download Issue:
+--------------------
+Hi Sundar,
+
+Please try  to resolve this issue by releasing and renewing the IP address. Go to command prompt and type the following:
+
+Ipconfig /release <press enter>
+Ipconfig /renew <press enter>
+
+It works for us sometime 
+
+Thanks and regards
+Sanjoy.
+
+mvn install -DskipTests -e -U
+
+mvn install -DskipTests -e -o
+
+
+
+-Xms256m -Xmx2048m -XX:PermSize=512M -XX:MaxNewSize=1024M -XX:MaxPermSize=3072M -XX:ThreadStackSize=1024M
+
+
+
+
+dbms_stats.gather_schema_stats(‘premier_cognizant’,cascade=>true);
+
+
+set PATH=%JAVA_HOME%\bin;%MAVEN_HOME%\bin;%PATH%
+ 
+mvn clean install
+ 
+mvn sonar:sonar
+
+mvn idea:idea
+
+
+http://dev5aig3jnk101.eqxdev.exigengroup.com/jenkins/view/Deploy/job/Deploy_CTS/
+
+MAVEN_OPTS
+-Xmx8192m -XX:MaxPermSize=3072m
+-Xms512m -Xmx2048m -XX:MaxPermSize=1024m
+
+JAVA_OPTS:
+-Xms256m -Xmx2048m -XX:PermSize=512M -XX:MaxNewSize=512M -XX:MaxPermSize=2048M -XX:ThreadStackSize=1024M
+
+
+
+Branch Creation:
+-------------------
+D:\AIG\Chartis2Cognizant>hg branch
+NY_HO_PAP_RELEASE
+
+D:\AIG\Chartis2Cognizant>hg checkout default
+abort: uncommitted changes
+(commit or update --clean to discard changes)
+
+D:\AIG\Chartis2Cognizant>hg checkout default
+6179 files updated, 0 files merged, 72 files removed, 0 files unresolved
+
+D:\AIG\Chartis2Cognizant>hg branch
+default
+
+D:\AIG\Chartis2Cognizant>hg branch TIME_POINT_DEFAULT
+marked working directory as branch TIME_POINT_DEFAULT
+(branches are permanent and global, did you want a bookmark?)
+
+D:\AIG\Chartis2Cognizant>hg branch
+TIME_POINT_DEFAULT
+
+D:\AIG\Chartis2Cognizant>hg commit -m "Branch for time point testing"
+
+D:\AIG\Chartis2Cognizant>hg push pcgbh --new-branch
+
+D:\AIG\Chartis2Cognizant>hg strip "outgoing()" //Changes revert back
+
+
+D:\TIME_POINT_DEFAULT>hg clone pcgbh
+
+
+•	java -Xmx2024m -XX:MaxPermSize=1012m -jar premier-dist.jar lb processes products
+
+AIGCV-137
+
+hg purge----Delete unmerged local file
+
+http://www.simplespringtutorial.com/springProgrammaticTransactions.html
+29
+
+
+------------------------------------------------------------------------
+
+
+Branch Update:
+
+
+D:\A\C>hg update -C
+2623 files updated, 0 files merged, 0 files removed, 0 files unresolved
+
+D:\A\C>hg checkout premier_1.20.4
+9681 files updated, 0 files merged, 1632 files removed, 0 files unresolved
+
+D:\A\C>hg branch
+premier_1.20.4
+
+D:\A\C>hg pull
+pulling from https://vnosvn-proxy.exigenservices.com/hg/Chartis2
+
+
+last week we have delivered 9 states one state NC is pending we are planning to 
+STATE:NC
+apart from this we are working on the endorsement form related changes and print regeneration rule.
+USCIP issues also eis team also raising some issues
+
+ 
+
+select count(*) from vinrecord where vehiclemodelyear='1994';
+
+select distinct trim(NCICManufacturer),to_char(effectiveDate,'ddmmyyyy') from VINRecord where 
+				vehicleModelYear ='1994'
+				and vinFeedType = 'P'
+				and trim(NCICManufacturer) is not null order by 2 asc
+				and effectiveDate <= to_date('01/29/2016','mm/dd/yyyy') and (endDate > '29-Jan-2016' or endDate is null)
+				order by trim(NCICManufacturer)
+
+
+select distinct trim(NCICManufacturer) from VINRecord where 
+        vehicleModelYear ='1994'
+        and vinFeedType = 'P'
+        and trim(NCICManufacturer) is not null 
+       and effectiveDate >='29-Jan-16' and (endDate > '29-Jan-16' or endDate is null)
+       order by trim(NCICManufacturer)

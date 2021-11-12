@@ -1,0 +1,62 @@
+what is Guidewire
+
+Guidewire support insurance processes: underwriting, billing, policy administration, and claims management.
+
+ What is subrogation?
+Ans.
+Subrogation is referred as the process of seeking reimbursement from the responsible party for a claim that they had already paid. For example, you have
+ an accident where your car gets damaged, and you have car insurance, the insurance company will pay you the money. But the insurance company comes to know
+ that the accident occur due to other party fault, 
+now they will claim the money from the other party this is known as ‘subrogation’.
+
+What do you mean by term ‘Insurer’ and ‘Insured’?
+
+Insured is the one who holds the policy and Insurer is the company that covers the insured.
+
+      Who is the beneficiary?
+
+Beneficiary is the one whom you have nominated for the insured amount in case of your death.
+
+17)   How to claim the policy?
+
+In order to claim the policy, you have to fill up the claim form and contact your financial advisor from whom you have bought the policy. You have to supplement 
+all the required documents like original payment receipt to your insurance company.  If everything is ok, you will be paid within seven days of the policy claimed.
+
+18)   What happens if you fail to make required premium payments?
+
+Usually, Insurance Company gives a grace period of 10-15 days to the insured if they fail to pay the premium before the due date.  Further, if you fail to pay a
+ premium, then your policy will lapse.  You can revive your policy by paying the outstanding premium along with the interest, counted from the date the policy got 
+lapsed.
+ Different Insurance Company has a different norm for reviving the policy.
+
+However, if your policy is in force for alonger period like say more than2-3 years,and if you fail to pay a premium, then insurance company will deduct the 
+premium amount from your accumulated funds, especially in permanent life insurance. This will continue till there is an available fund after which your policy 
+will be terminated.
+What is ‘group life’ insurance?
+
+‘Group life insurance’ is a single policy that covers an entire group. Such policy is taken by an employer for thebigger organization to cover their employee,
+ as anindividual policy holder, it may cost more than a group policy.
+
+2) What do you mean by ‘insurance coverage’?
+The term ‘insurance coverage’ means, when an individual takes an insurance policy the
+insured will be covered by insurance company for a specific amount for themselves or the things
+that he had taken the insurance policy, for which he would be paying premiums to the insurance
+company. The insurance company will pay the insured in case of damage or claims made by
+the insured according to their ‘insurance coverage’.
+
+Insurance policy is categorised into two
+a) General or Non-life Insurance
+b) Life Insurance
+
+FNOL (First Notice of Loss) is the event in which the insurer is informed of a potentially 
+covered loss. FNOL can be accomplished entirely through the use of system APIs.
+
+Draft claims and open claims
+During the FNOL process, the claim passes through two states: draft and open.
+
+A draft claim is a claim that has been saved to the ClaimCenter database, but there is 
+not yet enough information for the claim to enter the adjudication process. Draft claims
+ are not assigned to any user.
+An open claim is a claim that has been saved to the ClaimCenter database with enough 
+information to enter the adjudication process. Once a claim becomes open, it is assigned 
+to an adjuster.

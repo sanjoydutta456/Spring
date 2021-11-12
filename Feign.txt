@@ -1,0 +1,22 @@
+Feign is a REST Service client. Feign can call the RESTful web services easily.
+ When we use the RestTemplate to call the RESTful service, 
+it creates duplication of code that talks to RESTful services.
+
+When we define Feign, we need only to define a proxy and define a single method into it.
+ Feign helps us to simplify client code to talk to the RESTful web services.
+
+Executor Framework handles creation of thread, creating the thread pool and checking health while running and also terminates if needed.
+
+ExecutorService provides different methods to start and terminate thread. There are two methods execute() and submit() in ExecutorService. 
+Execute() method is used for threads which is Runnable and submit() method is used for Callable threads.
+
+
+Executors is a factory that provides the methods to return ExecutorService, ScheduledExecutorService, ThreadFactory.
+
+ThreadLocal is used to create thread-local variables
+
+A thread pool manages the pool of worker threads, it contains a queue that keeps tasks waiting to get executed.
+
+Datadog monitors every request for an application and tracks its delivery, which involves examining events down the application stacks.
+ Any anomalies that appear during the delivery of the application causes an alert trigger. Those alerts will accumulate, so 
+you will instantly be able to see in the dashboard what application is in trouble and which service seems to be the cause of the problem.
