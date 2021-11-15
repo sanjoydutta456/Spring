@@ -1,0 +1,253 @@
+SELECT  table_name,column_name
+              FROM all_tab_columns
+             WHERE     owner = 'EIS_APP'
+                   AND upper(column_name) like '%LOCATION%'  
+            --       AND  upper(TABLE_name) like '%INSURE%'
+                   order by table_name
+
+
+@Configuration
+public class ServletRoutes extends RouteBuilder {
+
+ @Override
+    public void configure() throws Exception {
+        onException(Exception.class).handled(true)
+                .log("***** Exception occurred in ServletRoutes ***** ERROR needs to handle.")
+                .log("Exception : ${exception.stacktrace}");
+		from("servlet://paymentexceptionReportDaily").routeId(SERVLET_REPORT_EXCEPTION_SETTLEMENT_PAYMENTS_DAILY_EMAIL_ROUTEID).id(SERVLET_REPORT_EXCEPTION_SETTLEMENT_PAYMENTS_DAILY_EMAIL_ROUTEID)
+            .log(LoggingLevel.INFO, InvoicePaymentUtil.logRouteStart(SERVLET_REPORT_EXCEPTION_SETTLEMENT_PAYMENTS_DAILY_EMAIL_ROUTEID))
+            .to("{{generate.email.paymentexception.report.endpoint.direct}}")
+            .log(LoggingLevel.INFO, InvoicePaymentUtil.logRouteEnd(SERVLET_REPORT_EXCEPTION_SETTLEMENT_PAYMENTS_DAILY_EMAIL_ROUTEID));
+	    from("servlet://fetchFileFromS3Bucket").routeId(SERVLET_FETCH_FILES_FROM_S3BUCKET).id(SERVLET_FETCH_FILES_FROM_S3BUCKET)
+                .log(LoggingLevel.INFO, InvoicePaymentUtil.logRouteStart(SERVLET_FETCH_FILES_FROM_S3BUCKET))
+                .bean(settlementProcessor)
+                .log(LoggingLevel.INFO, InvoicePaymentUtil.logRouteEnd(SERVLET_FETCH_FILES_FROM_S3BUCKET));
+    }		
+
+
+}
+
+-------------------------------------------------------------------
+ public static List<AbstractChargebackReturnDetail> returnToMerchantDetail(List<AbstractChargebackReturnDetail> parmDetailList) {
+        List<AbstractChargebackReturnDetail> lstRtmDetail = new ArrayList<>();
+        if ( !parmDetailList.isEmpty()) {
+            lstRtmDetail.addAll(parmDetailList.stream().filter(entry -> entry.getCategory().equalsIgnoreCase(IReport.RETURN_TO_MERCHANT)).collect(Collectors.toList()));
+        }
+        return lstRtmDetail;
+    }
+	
+--------------------------------------------------------------------------------
+public static boolean IsEmptyorNull(final Object parmValue ) {
+        boolean isEmptyOrNull = false;
+
+        if ( parmValue instanceof String ) {
+            isEmptyOrNull = StringUtils.isBlank((String)parmValue);
+        }else if(parmValue instanceof Date) {
+            isEmptyOrNull = (parmValue == null) ? true : false;
+        }else if ( parmValue instanceof BigDecimal) {
+            isEmptyOrNull = parmValue == null || ((BigDecimal)parmValue).doubleValue() < 0  ? true : false;
+        }else if ( parmValue == null) {
+            isEmptyOrNull = true;
+        }
+        return isEmptyOrNull;
+    }
+--------------------------------------------------------------------------------------
+
+FROM openjdk:8-jre-alpine
+ADD *.jar app.jar
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#RUN jar xf gi-invoicepayment-app-0.0.1-SNAPSHOT.jar newrelic
+ADD dev-c-pmpaymentservice.lmig.com.cer /tmp/dev-c-pmpaymentservice.lmig.com.cer
+RUN $JAVA_HOME/bin/keytool -import -alias uscm-dev-c -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/dev-c-pmpaymentservice.lmig.com.cer -storepass changeit -noprompt
+#
+ADD dev-a-pmpaymentservice.lmig.com.cer /tmp/dev-a-pmpaymentservice.lmig.com.cer
+RUN $JAVA_HOME/bin/keytool -import -alias uscm-dev-a -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/dev-a-pmpaymentservice.lmig.com.cer -storepass changeit -noprompt
+#
+ADD test-a-pmpaymentservice.lmig.com.cer /tmp/test-a-pmpaymentservice.lmig.com.cer
+RUN $JAVA_HOME/bin/keytool -import -alias uscm-test-a -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/test-a-pmpaymentservice.lmig.com.cer -storepass changeit -noprompt
+#
+ADD test-c-pmpaymentservice.lmig.com.cer /tmp/test-c-pmpaymentservice.lmig.com.cer
+RUN $JAVA_HOME/bin/keytool -import -alias uscm-test-c -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/test-c-pmpaymentservice.lmig.com.cer -storepass changeit -noprompt
+#
+ADD pmpaymentservices.lmig.com.cer /tmp/pmpaymentservices.lmig.com.cer
+RUN $JAVA_HOME/bin/keytool -import -alias uscm-paymentservice-prod -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/pmpaymentservices.lmig.com.cer -storepass changeit -noprompt
+
+#Handle space in file name example
+#ARG src="entrust_l1m_sha2 (1).cer"
+#ARG target=/tmp/"entrust_l1m_sha2 (1).cer"
+#ADD ${src} ${target}
+ADD entrust_l1m_sha2.cer /tmp/entrust_l1m_sha2.cer
+RUN $JAVA_HOME/bin/keytool -import -alias entrust_l1m_sha2-prod -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/entrust_l1m_sha2.cer -storepass changeit -noprompt
+
+
+#
+ADD entrust_g2_ca.cer /tmp/entrust_g2_ca.cer
+RUN $JAVA_HOME/bin/keytool -import -alias entrust_g2_ca-prod -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/entrust_g2_ca.cer -storepass changeit -noprompt
+
+#
+ADD entrust_l1k.cer /tmp/entrust_l1k.cer
+RUN $JAVA_HOME/bin/keytool -import -alias entrust_l1k-prod -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/entrust_l1k.cer -storepass changeit -noprompt
+
+
+ADD newrelic/newrelic-agent.jar newrelic/newrelic-agent.jar
+ADD newrelic.yml newrelic.yml
+
+#
+ADD slack.com.cer /tmp/slack.com.cer
+RUN $JAVA_HOME/bin/keytool -import -alias slack -keystore $JAVA_HOME/lib/security/cacerts -file /tmp/slack.com.cer -storepass changeit -noprompt
+
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-javaagent:/newrelic/newrelic-agent.jar", "-Xmx800m",  "-jar","/app.jar"]
+-----------------------------------------------------------
+application.properties:
+-------------------------------
+spring.datasource.url=jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCPS)(HOST=lmb-app-ui-dev.c5ohiwrimsik.us-east-1.rds.amazonaws.com)(PORT=2484))(CONNECT_DATA=(SID=ORCL)))
+spring.datasource.username=EIS_APP
+spring.datasource.password=AQICAHghXo4R0xqYYRpSqxOUdxgxo2bcUc7HZP3N08XC7S8YqQFVnidBMqiKf1zsibYhzR9EAAAAcjBwBgkqhkiG9w0BBwagYzBhAgEAMFwGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM2f+yj+cPIhScpiFvAgEQgC/VNyVcwzNeGwyIaIG0qDj5JnmcKilCavY4VlvFp20Zhj3/JGtaiM5vNbxzWBtFuA==
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+spring.datasource.data-source-class-name=oracle.jdbc.pool.OracleDataSource
+spring.datasource.max-active=100
+spring.datasource.max-idle=10
+-------------------------------------------------------------------------------
+if( claimsEntity.getAddresses().size() !=0 || !( claimsEntity.getAddresses().isEmpty()))
+            lossEvent.setPrecLossEventAddress(retrieveLossEventAddress(claimsEntity));
+-----------------------------------------------------------
+ protected List<AuthorityReport> retrieveAuthorityReports(Claim claim, ClaimsEntity claimsEntity) {
+        List<AuthorityReport> authorityReports = Lists.newArrayList();
+        List<ClaimsReportedEntity> claimsReportedEntities = claimsEntity.getClaimsReported();
+        if (CollectionUtils.isEmpty(claimsReportedEntities)) {
+            return authorityReports;
+        }
+        for (ClaimsReportedEntity reportedEntity : claimsReportedEntities) {
+            PrecAuthorityReport authorityReport = new PrecAuthorityReport();
+            beanUtils.copyProperties(authorityReport, reportedEntity);
+            authorityReport.setComponentName(reportedEntity.getInstanceMetadata().getComponentInstanceName());
+            authorityReport.setParties(retrieveRefParties(claim, reportedEntity.getRefParties()));
+            authorityReports.add(authorityReport);
+        }
+
+        return authorityReports;
+    }
+----------------------------------------------------------------------
+ protected List<Party> retrieveWitnesses(Claim claim) {
+        List<Party> witnesses = Lists.newArrayList();
+
+        for (Party party : claim.getParties()){
+            for (PartyRole role : party.getRoles()){
+                if(role.getClaimsPartyRoleCd().equalsIgnoreCase(WITNESS)){
+                    witnesses.add(party);
+                }
+
+            }
+        }
+
+        return witnesses;
+    }
+------------------------------------------------------------------------
+ /**
+     * Retrieve risk item coverages
+     *
+     * @param riskItem                    Risk item entity to retrieve coverages
+     * @param associatedRiskItemCoverages List of coverage of associated risk item
+     * @return List of Coverage DTO
+     * @author rqiu
+     * @since 2016SP5
+     */
+----------------------------------------------------------------------------------	 
+    if (claim.getPolicyNumber() == null) {
+            return null;
+        }
+
+        ClaimsPolicyEntity policyEntity = getClaimsPolicyService().findClaimsPolicy(claim.getClaimNumber());
+        PrecClaimPolicy policy = new PrecClaimPolicy();
+        BeanUtils.copyProperties(policyEntity, policy, POLICY_STATUS);
+        policy.setPolicyStatus(policyEntity.getClaimsPolicyStatus());
+
+        List<PrecClaimsPolicyScheduledItemEntity> allScheduledItems = Lists.newArrayList();
+        List<ClaimsPolicyRiskPartyEntity> allRiskParties = Lists.newArrayList();
+        for (ClaimsPolicyInsurableRiskEntity riskItem : policyEntity.getRiskItems()) {
+            if (riskItem instanceof PrecClaimsPolicyScheduledItemEntity) {
+                allScheduledItems.add((PrecClaimsPolicyScheduledItemEntity) riskItem);
+            } else if (riskItem instanceof ClaimsPolicyRiskPartyEntity) {
+                allRiskParties.add((ClaimsPolicyRiskPartyEntity) riskItem);
+            }
+        }
+----------------------------------------------------------------------------------------------------
+if (StringUtils.equals(associatedCoverage.getOid(), coverageEntity.getAssociatedCoverageOid())) {
+                coverage.setAssociatedCoverage(associatedCoverage);
+            }		
+---------------------------------
+if (CollectionUtils.isEmpty(insurableRisks)) {
+            return;
+        }
+---------------------------------------------
+@RestController
+@RequestMapping(value = "/api/payment/v1")
+public class InvoiceRestController {
+    private static final Logger logger = LoggerFactory.getLogger(InvoiceRestController.class);
+
+    private final InvoiceService            invoiceService;
+
+    @Autowired
+    public InvoiceRestController(InvoiceService parmInvoiceService) {
+        this.invoiceService = parmInvoiceService;
+    }
+
+    @GetMapping(value = "/invoiceInfo/{applicationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<InvoiceApiResponse> invoiceInfo(@PathVariable("applicationId") String parmApplicationId) {
+        if(StringUtils.isBlank(parmApplicationId)) {
+            throw new IllegalArgumentException("Received Application Id is empty or null");
+        }
+        return new ResponseEntity<InvoiceApiResponse>(invoiceService.getInvoiceDataByAppId(parmApplicationId), HttpStatus.OK);
+    }
+}
+-------------------------------------------------------------------------------
+@ControllerAdvice(annotations = RestController.class)
+public class ApiServiceExceptionHandler  extends ResponseEntityExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(ApiServiceExceptionHandler.class);
+
+    @Autowired
+    public   PaymentApiExceptionLogImpl         exceptionLog;
+
+    @ExceptionHandler(value={InvoiceNotFoundException.class})
+    public ResponseEntity handleInvoiceNotFoundException(InvoiceNotFoundException parmEx) {
+        logger.info("Exception Type InvoiceNotFoundException. Message = [{}]",parmEx.getMessage());
+        this.logApiException(parmEx.getPolicyId(), Boolean.FALSE, HttpStatus.NOT_FOUND.toString(), ILogService.API_INVOICE_NUMBER_NOT_FOUND_ERRMSG);
+        return new ResponseEntity(StringUtils.EMPTY, HttpStatus.NOT_FOUND);
+    }
+    protected void logApiException (String parmPolicyId, boolean parmInvoiceInd, String parmErrorCode, String parmMessage) {
+        String invoiceId = parmInvoiceInd ? exceptionLog.getInvoiceIdByPolicyNumber(parmPolicyId) : StringUtils.EMPTY;
+        exceptionLog.logPaymentApiException(parmPolicyId, invoiceId, parmErrorCode, parmMessage);
+    }
+	
+}
+-----------------------------
+@Service
+public class PaymentApiExceptionLogImpl {
+    private static final Logger logger = LoggerFactory.getLogger(PaymentApiExceptionLogImpl.class);
+	private InvoicePaymentExceptionRepositoryImpl invoicePaymentExceptionRepo;
+	    public void logPaymentApiException (String parmPolicyNumber, String parmInvoiceNumber, String parmErrorcode, String parmErrorMessage) {
+        InvoicePaymentException exception = this.buildInvoicePaymentException(
+                                                this.buildExceptionDto(parmPolicyNumber, parmInvoiceNumber, parmErrorcode, parmErrorMessage));
+        this.logException(exception);
+    }
+	 public void logException (final InvoicePaymentException parmInvoicePaymentException) {
+        invoicePaymentExceptionRepo.writeInvoicePaymentException(parmInvoicePaymentException);
+    }
+
+}	
+---------------------------------------
+@Entity
+@Table(name = "invoicePaymentException")
+public class InvoicePaymentException {
+    @JsonIgnore
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSZ", timezone="America/New_York")
+    @Column
+    private Date timestamp;
+	}	
+	
+	
